@@ -1,11 +1,22 @@
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { HashRouter, Routes, Route } from 'react-router-dom'
+import Home from './components/Home'
+import Navbar from './components/Navbar'
+import NotFound from './components/NotFound'
 
-function App() {
-
+export function App() {
   return (
-    <h1>Hello World</h1>
+    <Routes>
+      <Route path='/' element={<Home />} />
+      <Route path='*' element={<NotFound />} />
+    </Routes>
+  )
+};
+
+export function WrappedApp() {
+  return (
+    <HashRouter>
+      <Navbar />
+      <App />
+    </HashRouter>
   )
 }
-
-export default App
