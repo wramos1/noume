@@ -17,6 +17,19 @@ html, body {
 	background-size: cover;
 }
 
+.action-section {
+	background: linear-gradient(180deg, rgba(0, 0, 0, 0) 50%, #453B6B 100%), url('./images/secondMain.jpg');
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+}
+
+
+@layer components {
+	.primary-btn {
+		@apply primary-bg-color secondary-txt-color p-[5px] rounded-[5px] 
+	}
+}
 
 @layer utilities {
 	.primary-txt-color {
@@ -31,10 +44,7 @@ html, body {
 		color: #FEFEDF;
 	}
 
-	.primary-btn {
-		background-color: #AA9BE6;
-		color: #FEFEDF;
-		padding: 5px;
-		border-radius: 5px;
+	.icon-bg {
+		background-color: #7468AD;
 	}
   }
