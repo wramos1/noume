@@ -37,8 +37,8 @@ const Home = () => {
                         popularStays.map((stay, i) => {
                             const { imgSrc, imgAlt, title } = stay;
                             return (
-                                <div key={i} className='flex flex-col justify-around items-center max-w-[250px] h-[300px] basis-1/4'>
-                                    <img src={imgSrc} alt={imgAlt} className='rounded-[50%] w-[220px] h-[220px]' />
+                                <div key={i} className='flex flex-col justify-around items-center max-w-[250px] h-[300px] basis-1/4 hover:primary-txt-color group cursor-pointer'>
+                                    <img src={imgSrc} alt={imgAlt} className='rounded-[50%] w-[220px] h-[220px] group-hover:primary-border group-hover:scale-105 transition-all' />
                                     <p>{title}</p>
                                 </div>
                             )
@@ -114,7 +114,7 @@ const Home = () => {
                     </p>
                 </div>
 
-                <input className='w-1/3 py-3 rounded my-5 text-black placeholder-black brightness-50 focus:brightness-75 text-lg' type="text" name="" id="" placeholder='Email Address' />
+                <input className='w-1/3 py-3 px-1 rounded my-5 text-black placeholder-slate-500 brightness-50 focus:brightness-75 text-lg' type="text" name="" id="" placeholder='Email Address' />
                 <button className='primary-btn bg-[#8000FF] text-black px-5'>
                     Subscribe
                 </button>

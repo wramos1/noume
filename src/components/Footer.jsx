@@ -9,30 +9,30 @@ const Footer = () => {
                 <div className='flex flex-col'>
                     <h2 className='text-lg'>Resources</h2>
                     <ul className='text-xs flex flex-col gap-2'>
-                        <li>Support Center</li>
-                        <li>Support Plans</li>
-                        <li>Licenses</li>
+                        <li className='hover:text-slate-700 cursor-pointer'>Support Center</li>
+                        <li className='hover:text-slate-700 cursor-pointer'>Support Plans</li>
+                        <li className='hover:text-slate-700 cursor-pointer'>Licenses</li>
                     </ul>
                 </div>
 
                 <div className='flex flex-col'>
                     <h2 className='text-lg'>Company</h2>
                     <ul className='text-xs flex flex-col gap-2'>
-                        <li>Accessibility Statement</li>
-                        <li>Careers</li>
-                        <li>Contact Us</li>
-                        <li>Leadership</li>
-                        <li>FAQs</li>
+                        <li className='hover:text-slate-700 cursor-pointer'>Accessibility Statement</li>
+                        <li className='hover:text-slate-700 cursor-pointer'>Careers</li>
+                        <li className='hover:text-slate-700 cursor-pointer'>Contact Us</li>
+                        <li className='hover:text-slate-700 cursor-pointer'>Leadership</li>
+                        <li className='hover:text-slate-700 cursor-pointer'>FAQs</li>
                     </ul>
                 </div>
 
                 <div className='flex flex-col'>
                     <h2 className='text-lg'>About</h2>
                     <ul className='text-xs flex flex-col gap-2'>
-                        <li>Don't sell my personal information</li>
-                        <li>Terms & Conditions - Privacy Policy</li>
-                        <li>Learn how Noume works</li>
-                        <li>Legal Information</li>
+                        <li className='hover:text-slate-700 cursor-pointer'>Don't sell my personal information</li>
+                        <li className='hover:text-slate-700 cursor-pointer'>Terms & Conditions - Privacy Policy</li>
+                        <li className='hover:text-slate-700 cursor-pointer'>Learn how Noume works</li>
+                        <li className='hover:text-slate-700 cursor-pointer'>Legal Information</li>
                     </ul>
                 </div>
             </div>
