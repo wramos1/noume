@@ -25,7 +25,7 @@ const Navbar = () => {
                     </li>
 
                     <li>
-                        <Link>
+                        <Link to={'/find-hotels'}>
                             <button className='primary-btn'>
                                 Find Hotels
                             </button>

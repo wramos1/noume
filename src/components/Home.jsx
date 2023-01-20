@@ -3,6 +3,7 @@ import { popularStays } from '../data/popularStays';
 import Yoga from '../images/yoga.png';
 import House from '../images/home.png';
 import CheckList from '../images/checks.png';
+import SearchBar from './SearchBar';
 
 const Home = () => {
     return (
@@ -24,6 +25,7 @@ const Home = () => {
                 <h1 className='primary-txt-color text-[56px] absolute left-[26.74%] right-[61.94%] top-[56.9%] bottom-[35.96%] min-w-[500px] lg:top-[52%]'>
                     NEW
                 </h1>
+
             </div>
 
             {/* Popular Stays Section */}
