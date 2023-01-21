@@ -4,10 +4,12 @@ import Yoga from '../images/yoga.png';
 import House from '../images/home.png';
 import CheckList from '../images/checks.png';
 import SearchBar from './SearchBar';
+import Navbar from './Navbar';
 
 const Home = () => {
     return (
         <div>
+            <Navbar />
             {/* Hero Section */}
             <div className='hero w-full min-h-[95vh] relative'>
                 <h1 className='text-[56px] absolute left-[8.26%] right-[78.54%] top-[19.42%] bottom-[71.17%] min-w-[500px] lg:top-[18%]'>

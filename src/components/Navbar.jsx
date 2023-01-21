@@ -1,12 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const Navbar = () => {
+const Navbar = (props) => {
     return (
-        <nav className='flex justify-around items-center absolute z-20 w-full p-10'>
+        <nav className={`flex justify-around items-center absolute z-20 w-full p-9 transition-all ${props.bg} ${props.paddingSize}`}>
             <div className='w-1/2'>
                 <h1 className='text-3xl secondary-txt-color'>
-                    Noume<span className='primary-txt-color'>.</span>
+                    <Link to={'/'}>
+                        Noume<span className='primary-txt-color'>.</span>
+                    </Link>
                 </h1>
             </div>
 
