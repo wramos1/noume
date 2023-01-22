@@ -9,8 +9,9 @@ const SearchBar = () => {
     const [term, setTerm] = useState('');
     const [predictedLocations, setPredictedLocations] = useState([]);
     const [selectedLocation, setSelectedLocation] = useState({ index: null, name: '', coordinates: { lat: null, long: null } });
-    const [checkIn, setCheckIn] = useState({ day: null, month: null, year: null, strDate: '' })
-    const [checkOut, setCheckOut] = useState({ day: null, month: null, year: null, strDate: '' })
+    const [checkIn, setCheckIn] = useState({ day: null, month: null, year: null, strDate: '' });
+    const [checkOut, setCheckOut] = useState({ day: null, month: null, year: null, strDate: '' });
+    const [rooms, setRooms] = useState([{ adults: 2, children: 0 }]);
 
     const fetchLocations = async () => {
         const results = await fetch(`https://hotels4.p.rapidapi.com/locations/v3/search?q=${term}`, {
@@ -176,11 +177,11 @@ const SearchBar = () => {
                 <div className='flex items-center gap-3 px-2 py-1 justify-between transition-all border-2 hover:border-black focus:border-black'>
                     <img src={Person} alt="person icon" className='w-[23px]' />
                     <div className='flex flex-col relative'>
-                        <label htmlFor="people" className="cursor-pointer text-xs">People</label>
+                        <label htmlFor="people" className="cursor-pointer text-xs">{rooms.length} Rooms</label>
                         <button
                             id='people'
                         >
-                            People
+                            {rooms.reduce((accum, room) => accum + room.adults, 0)} Adults, {rooms.reduce((accum, room) => accum + room.children, 0)} Children
                         </button>
                     </div>
                 </div>
