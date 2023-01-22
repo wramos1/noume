@@ -63,7 +63,7 @@ const Home = () => {
                             Less Stressful
                         </h1>
 
-                        <img className='w-[100px] h-[100px]' src={Yoga} alt="yoga pose" />
+                        <img className='w-[100px] h-[100px] hover:scale-125 transition-all' src={Yoga} alt="yoga pose" />
 
                         <p className='text-sm w-1/2'>
                             We list out all of your options to reduce the anxiety of missing out on the ideal stay.
@@ -75,7 +75,7 @@ const Home = () => {
                             Welcoming
                         </h1>
 
-                        <img className='w-[100px] h-[100px]' src={House} alt="house" />
+                        <img className='w-[100px] h-[100px] hover:scale-125 transition-all' src={House} alt="house" />
 
                         <p className='text-sm w-1/2'>
                             We provide the means to filter out unwanted hotels  so you can feel at home during your trip.
@@ -87,7 +87,7 @@ const Home = () => {
                             Perfect
                         </h1>
 
-                        <img className='w-[100px] h-[100px]' src={CheckList} alt="checklist" />
+                        <img className='w-[100px] h-[100px] hover:scale-125 transition-all' src={CheckList} alt="checklist" />
 
                         <p className='text-sm w-1/2'>
                             We make finding a hotel easy so that you can check off all the boxes of having a perfect trip.

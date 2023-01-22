@@ -24,6 +24,31 @@ html, body {
 	background-attachment: fixed;
 }
 
+.react-calendar__tile:disabled,.react-calendar__navigation button:disabled  {
+	filter: brightness(50%);
+}
+
+.react-calendar {
+	max-width: revert;
+	margin-top: 50px;
+	background: white;
+}
+
+.react-calendar__month-view__days__day--weekend {
+	color: black;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth{
+	background: #FEFEDF;
+	color: black;
+}
+
+.react-calendar__tile--active, .react-calendar button:enabled:hover {
+	background: #AA9BE6;
+	border-radius: 75%;
+	color: white;
+}
+
 
 @layer components {
 	.primary-btn {
