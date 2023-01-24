@@ -93,6 +93,36 @@ const SearchBar = () => {
             return new Date(date.setDate(date.getDate() + 1));
         }
         return new Date();
+    };
+
+    const mapThroughRooms = () => {
+        return rooms.map((room, i) => {
+            const { adults, children } = room;
+            return (
+                <div key={i} className='flex flex-col'>
+                    <p>
+                        Room {i}
+                    </p>
+                    <div className='flex justify-between'>
+                        <h2>Adults</h2>
+                        <div className='flex'>
+                            <button> - </button>
+                            <input type="number" value={adults} name="" id="" />
+                            <button> + </button>
+                        </div>
+                    </div>
+
+                    <div className='flex'>
+                        <h2>Children</h2>
+                        <div className='flex justify-evenly'>
+                            <button> - </button>
+                            <input type="number" value={children} name="" id="" className='w-1/3' />
+                            <button> + </button>
+                        </div>
+                    </div>
+                </div>
+            )
+        })
     }
 
     return (
@@ -181,8 +211,14 @@ const SearchBar = () => {
                         <button
                             id='people'
                         >
-                            {rooms.reduce((accum, room) => accum + room.adults, 0)} Adults, {rooms.reduce((accum, room) => accum + room.children, 0)} Children
+                            {rooms.reduce((accum, room) => accum + room.adults, 0)} Adults,
+                            {rooms.reduce((accum, room) => accum + room.children, 0)} Children
                         </button>
+
+                        <div className='absolute mt-12 border border-black min-w-[200px] -left-10'>
+                            {mapThroughRooms()}
+                        </div>
+
                     </div>
                 </div>
 
