@@ -95,32 +95,90 @@ const SearchBar = () => {
         return new Date();
     };
 
+    const decrementAdults = (i) => {
+        const clonedRoom = { ...rooms[i] };
+        clonedRoom.adults = clonedRoom.adults - 1;
+        const clonedState = [...rooms];
+        clonedState[i] = clonedRoom;
+        setRooms(clonedState);
+    };
+    const addAdults = (i) => {
+        const clonedRoom = { ...rooms[i] };
+        clonedRoom.adults = clonedRoom.adults + 1;
+        const clonedState = [...rooms];
+        clonedState[i] = clonedRoom;
+        setRooms(clonedState);
+    };
+
+    const updateAdults = (value, i) => {
+        const clonedRoom = { ...rooms[i] };
+        clonedRoom.adults = parseInt(value);
+        const clonedState = [...rooms];
+        clonedState[i] = clonedRoom;
+        setRooms(clonedState);
+    }
+
+    const decrementChildren = (i) => {
+        const clonedRoom = { ...rooms[i] };
+        clonedRoom.children = clonedRoom.children - 1;
+        const clonedState = [...rooms];
+        clonedState[i] = clonedRoom;
+        setRooms(clonedState);
+    };
+
+    const updateChildren = (value, i) => {
+        const clonedRoom = { ...rooms[i] };
+        clonedRoom.children = parseInt(value);
+        const clonedState = [...rooms];
+        clonedState[i] = clonedRoom;
+        setRooms(clonedState);
+    }
+
+    const addChildren = (i) => {
+        const clonedRoom = { ...rooms[i] };
+        clonedRoom.children = clonedRoom.children + 1;
+        const clonedState = [...rooms];
+        clonedState[i] = clonedRoom;
+        setRooms(clonedState);
+    };
+
     const mapThroughRooms = () => {
         return rooms.map((room, i) => {
             const { adults, children } = room;
             return (
-                <div key={i} className='flex flex-col'>
-                    <p>
-                        Room {i}
+                <div key={i} className='flex flex-col gap-5'>
+                    <p className='text-xs font-black'>
+                        Room {i + 1}
                     </p>
+
                     <div className='flex justify-between'>
-                        <h2>Adults</h2>
-                        <div className='flex'>
-                            <button> - </button>
-                            <input type="number" value={adults} name="" id="" />
-                            <button> + </button>
+                        <h2 className=''>
+                            Adults
+                        </h2>
+                        <div className='flex justify-evenly w-1/2 border-green-500 border'>
+                            <button className='hover:bg-gray-500/40 w-full' onClick={() => decrementAdults(i)}>
+                                -
+                            </button>
+                            <input type="number" value={adults} className='w-full border-2 text-center' onChange={(e) => updateAdults(e.target.value, i)} />
+                            <button className='hover:bg-gray-500/40 w-full' onClick={() => addAdults(i)}>
+                                +
+                            </button>
                         </div>
                     </div>
 
-                    <div className='flex'>
+                    <div className='flex justify-between'>
                         <h2>Children</h2>
-                        <div className='flex justify-evenly'>
-                            <button> - </button>
-                            <input type="number" value={children} name="" id="" className='w-1/3' />
-                            <button> + </button>
+                        <div className='flex justify-evenly w-1/2 border-green-500 border'>
+                            <button className='hover:bg-gray-500/40 w-full' onClick={() => decrementChildren(i)}>
+                                -
+                            </button>
+                            <input type="number" value={children} className='w-full border-2 text-center' onChange={(e) => updateChildren(e.target.value, i)} />
+                            <button className='hover:bg-gray-500/40 w-full' onClick={() => addChildren(i)}>
+                                +
+                            </button>
                         </div>
                     </div>
-                </div>
+                </div >
             )
         })
     }
