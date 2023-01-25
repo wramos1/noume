@@ -95,52 +95,28 @@ const SearchBar = () => {
         return new Date();
     };
 
-    const decrementAdults = (i) => {
+    const decrementPerson = (key, i) => {
         const clonedRoom = { ...rooms[i] };
-        clonedRoom.adults = clonedRoom.adults - 1;
+        clonedRoom[key] = clonedRoom[key] - 1;
         const clonedState = [...rooms];
         clonedState[i] = clonedRoom;
         setRooms(clonedState);
     };
-    const addAdults = (i) => {
+    const addPerson = (key, i) => {
         const clonedRoom = { ...rooms[i] };
-        clonedRoom.adults = clonedRoom.adults + 1;
+        clonedRoom[key] = clonedRoom[key] + 1;
         const clonedState = [...rooms];
         clonedState[i] = clonedRoom;
         setRooms(clonedState);
     };
 
-    const updateAdults = (value, i) => {
+    const updatePerson = (key, value, i) => {
         const clonedRoom = { ...rooms[i] };
-        clonedRoom.adults = parseInt(value);
+        clonedRoom[key] = parseInt(value);
         const clonedState = [...rooms];
         clonedState[i] = clonedRoom;
         setRooms(clonedState);
     }
-
-    const decrementChildren = (i) => {
-        const clonedRoom = { ...rooms[i] };
-        clonedRoom.children = clonedRoom.children - 1;
-        const clonedState = [...rooms];
-        clonedState[i] = clonedRoom;
-        setRooms(clonedState);
-    };
-
-    const updateChildren = (value, i) => {
-        const clonedRoom = { ...rooms[i] };
-        clonedRoom.children = parseInt(value);
-        const clonedState = [...rooms];
-        clonedState[i] = clonedRoom;
-        setRooms(clonedState);
-    }
-
-    const addChildren = (i) => {
-        const clonedRoom = { ...rooms[i] };
-        clonedRoom.children = clonedRoom.children + 1;
-        const clonedState = [...rooms];
-        clonedState[i] = clonedRoom;
-        setRooms(clonedState);
-    };
 
     const mapThroughRooms = () => {
         return rooms.map((room, i) => {
@@ -156,11 +132,11 @@ const SearchBar = () => {
                             Adults
                         </h2>
                         <div className='flex justify-evenly w-1/2 border-green-500 border'>
-                            <button className='hover:bg-gray-500/40 w-full' onClick={() => decrementAdults(i)}>
+                            <button className='hover:bg-gray-500/40 w-full' onClick={() => decrementPerson('adults', i)}>
                                 -
                             </button>
-                            <input type="number" value={adults} className='w-full border-2 text-center' onChange={(e) => updateAdults(e.target.value, i)} />
-                            <button className='hover:bg-gray-500/40 w-full' onClick={() => addAdults(i)}>
+                            <input type="number" value={adults} className='w-full border-2 text-center' onChange={(e) => updatePerson('adults', e.target.value, i)} />
+                            <button className='hover:bg-gray-500/40 w-full' onClick={() => addPerson('adults', i)}>
                                 +
                             </button>
                         </div>
@@ -169,11 +145,11 @@ const SearchBar = () => {
                     <div className='flex justify-between'>
                         <h2>Children</h2>
                         <div className='flex justify-evenly w-1/2 border-green-500 border'>
-                            <button className='hover:bg-gray-500/40 w-full' onClick={() => decrementChildren(i)}>
+                            <button className='hover:bg-gray-500/40 w-full' onClick={() => decrementPerson('children', i)}>
                                 -
                             </button>
-                            <input type="number" value={children} className='w-full border-2 text-center' onChange={(e) => updateChildren(e.target.value, i)} />
-                            <button className='hover:bg-gray-500/40 w-full' onClick={() => addChildren(i)}>
+                            <input type="number" value={children} className='w-full border-2 text-center' onChange={(e) => updatePerson('children', e.target.value, i)} />
+                            <button className='hover:bg-gray-500/40 w-full' onClick={() => addPerson('children', i)}>
                                 +
                             </button>
                         </div>
