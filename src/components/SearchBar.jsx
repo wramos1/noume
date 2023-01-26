@@ -11,7 +11,7 @@ const SearchBar = () => {
     const [selectedLocation, setSelectedLocation] = useState({ index: null, name: '', coordinates: { lat: null, long: null } });
     const [checkIn, setCheckIn] = useState({ day: null, month: null, year: null, strDate: '' });
     const [checkOut, setCheckOut] = useState({ day: null, month: null, year: null, strDate: '' });
-    const [rooms, setRooms] = useState([{ adults: 2, children: 0 }]);
+    const [rooms, setRooms] = useState([{ adults: 2, children: [{ age: 0 }] }]);
 
     const fetchLocations = async () => {
         const results = await fetch(`https://hotels4.p.rapidapi.com/locations/v3/search?q=${term}`, {
@@ -104,10 +104,11 @@ const SearchBar = () => {
     };
     const addPerson = (key, i) => {
         const clonedRoom = { ...rooms[i] };
-        clonedRoom[key] = clonedRoom[key] + 1;
+        clonedRoom[key] = [...clonedRoom[key], { age: 0 }];
         const clonedState = [...rooms];
         clonedState[i] = clonedRoom;
-        setRooms(clonedState);
+        setRooms(clonedState)
+
     };
 
     const updatePerson = (key, value, i) => {
@@ -148,7 +149,7 @@ const SearchBar = () => {
                             <button className='hover:bg-gray-500/40 w-full' onClick={() => decrementPerson('children', i)}>
                                 -
                             </button>
-                            <input type="number" value={children} className='w-full border-2 text-center' onChange={(e) => updatePerson('children', e.target.value, i)} />
+                            <input type="number" value={room.children.length} className='w-full border-2 text-center' onChange={(e) => updatePerson('children', e.target.value, i)} />
                             <button className='hover:bg-gray-500/40 w-full' onClick={() => addPerson('children', i)}>
                                 +
                             </button>
@@ -246,11 +247,16 @@ const SearchBar = () => {
                             id='people'
                         >
                             {rooms.reduce((accum, room) => accum + room.adults, 0)} Adults,
-                            {rooms.reduce((accum, room) => accum + room.children, 0)} Children
+                            {rooms.reduce((accum, room) => accum + room.children.length, 0)} Children
                         </button>
 
                         <div className='absolute mt-12 border border-black min-w-[200px] -left-10'>
                             {mapThroughRooms()}
+                            <div>
+                                <button onClick={() => setRooms([...rooms, { adults: 2, children: { age: 0 } }])}>
+                                    Add Room
+                                </button>
+                            </div>
                         </div>
 
                     </div>
