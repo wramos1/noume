@@ -97,18 +97,32 @@ const SearchBar = () => {
 
     const decrementPerson = (key, i) => {
         const clonedRoom = { ...rooms[i] };
-        clonedRoom[key] = clonedRoom[key] - 1;
         const clonedState = [...rooms];
-        clonedState[i] = clonedRoom;
-        setRooms(clonedState);
+        if (key === 'children') {
+            if (clonedRoom.children.length > 0) {
+                clonedRoom.children.pop();
+                clonedState[i] = clonedRoom;
+                setRooms(clonedState);
+                console.log(clonedState);
+            } else {
+                return;
+            }
+        } else {
+            clonedRoom[key] = clonedRoom[key] - 1;
+            clonedState[i] = clonedRoom;
+            setRooms(clonedState);
+        }
     };
     const addPerson = (key, i) => {
         const clonedRoom = { ...rooms[i] };
-        clonedRoom[key] = [...clonedRoom[key], { age: 0 }];
+        if (key === 'children') {
+            clonedRoom[key] = [...clonedRoom[key], { age: 0 }];
+        } else {
+            clonedRoom[key] = clonedRoom[key] + 1;
+        }
         const clonedState = [...rooms];
         clonedState[i] = clonedRoom;
         setRooms(clonedState)
-
     };
 
     const updatePerson = (key, value, i) => {
@@ -149,7 +163,7 @@ const SearchBar = () => {
                             <button className='hover:bg-gray-500/40 w-full' onClick={() => decrementPerson('children', i)}>
                                 -
                             </button>
-                            <input type="number" value={room.children.length} className='w-full border-2 text-center' onChange={(e) => updatePerson('children', e.target.value, i)} />
+                            <input type="number" value={children.length} className='w-full border-2 text-center' onChange={(e) => updatePerson('children', e.target.value, i)} />
                             <button className='hover:bg-gray-500/40 w-full' onClick={() => addPerson('children', i)}>
                                 +
                             </button>
