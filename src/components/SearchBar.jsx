@@ -131,7 +131,17 @@ const SearchBar = () => {
         const clonedState = [...rooms];
         clonedState[i] = clonedRoom;
         setRooms(clonedState);
-    }
+    };
+
+    const handleChildrenAgeChange = (value, i, ro) => {
+        console.log(ro)
+        const clonedRoom = { ...rooms[i] };
+        clonedRoom.children[i].age = value;
+        const clonedState = [...rooms];
+        clonedState[i] = clonedRoom;
+        console.log(clonedState);
+        setRooms(clonedState)
+    };
 
     const mapThroughRooms = () => {
         return rooms.map((room, i) => {
@@ -267,10 +277,37 @@ const SearchBar = () => {
                         <div className='absolute mt-12 border border-black min-w-[200px] -left-10'>
                             {mapThroughRooms()}
                             <div>
-                                <button onClick={() => setRooms([...rooms, { adults: 2, children: { age: 0 } }])}>
+                                <button onClick={() => setRooms([...rooms, { adults: 2, children: [{ age: 0 }] }])}>
                                     Add Room
                                 </button>
                             </div>
+                            <div className='flex'>
+                                {rooms.map((room) => room.children.map((child, i) => {
+                                    return (
+                                        <select defaultValue={child.age} onChange={(e) => handleChildrenAgeChange(e.target.value, i, room)}>
+                                            <option value={child.age}>
+                                                {child.age}
+                                            </option>
+                                            <option value="0">
+                                                0
+                                            </option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                        </select>
+                                    )
+                                }))}
+                            </div>
+
                         </div>
 
                     </div>
