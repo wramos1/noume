@@ -13,6 +13,8 @@ const SearchBar = () => {
     const [checkOut, setCheckOut] = useState({ day: null, month: null, year: null, strDate: '' });
     const [rooms, setRooms] = useState([{ adults: 2, children: [{ age: 0 }] }]);
 
+
+
     const fetchLocations = async () => {
         const results = await fetch(`https://hotels4.p.rapidapi.com/locations/v3/search?q=${term}`, {
             method: 'GET',
@@ -103,7 +105,6 @@ const SearchBar = () => {
                 clonedRoom.children.pop();
                 clonedState[i] = clonedRoom;
                 setRooms(clonedState);
-                console.log(clonedState);
             } else {
                 return;
             }
@@ -127,19 +128,26 @@ const SearchBar = () => {
 
     const updatePerson = (key, value, i) => {
         const clonedRoom = { ...rooms[i] };
-        clonedRoom[key] = parseInt(value);
+        if (key === 'children') {
+            const newChildrenArray = [];
+            for (let i = 0; i < value; i++) {
+                newChildrenArray.push({ age: 0 });
+            }
+            clonedRoom[key] = newChildrenArray;
+        } else {
+            clonedRoom[key] = parseInt(value);
+        }
         const clonedState = [...rooms];
         clonedState[i] = clonedRoom;
         setRooms(clonedState);
     };
 
-    const handleChildrenAgeChange = (value, i, ro) => {
-        console.log(ro)
-        const clonedRoom = { ...rooms[i] };
-        clonedRoom.children[i].age = value;
+    const handleChildrenAgeChange = (value, i, room) => {
+        const index = rooms.indexOf(room);
+        const clonedRoom = { ...rooms[index] };
+        clonedRoom.children[i].age = parseInt(value);
         const clonedState = [...rooms];
-        clonedState[i] = clonedRoom;
-        console.log(clonedState);
+        clonedState[index] = clonedRoom;
         setRooms(clonedState)
     };
 
@@ -147,8 +155,8 @@ const SearchBar = () => {
         return rooms.map((room, i) => {
             const { adults, children } = room;
             return (
-                <div key={i} className='flex flex-col gap-5'>
-                    <p className='text-xs font-black'>
+                <div key={i} className='flex flex-col gap-5 border-black border-b'>
+                    <p className='text-xs font-black underline'>
                         Room {i + 1}
                     </p>
 
@@ -276,18 +284,14 @@ const SearchBar = () => {
 
                         <div className='absolute mt-12 border border-black min-w-[200px] -left-10'>
                             {mapThroughRooms()}
-                            <div>
-                                <button onClick={() => setRooms([...rooms, { adults: 2, children: [{ age: 0 }] }])}>
-                                    Add Room
-                                </button>
-                            </div>
-                            <div className='flex'>
+                            <div className='flex flex-wrap'>
                                 {rooms.map((room) => room.children.map((child, i) => {
                                     return (
-                                        <select defaultValue={child.age} onChange={(e) => handleChildrenAgeChange(e.target.value, i, room)}>
-                                            <option value={child.age}>
-                                                {child.age}
-                                            </option>
+                                        <select
+                                            key={i}
+                                            defaultValue={child.age}
+                                            onChange={(e) => handleChildrenAgeChange(e.target.value, i, room)}
+                                        >
                                             <option value="0">
                                                 0
                                             </option>
@@ -307,7 +311,11 @@ const SearchBar = () => {
                                     )
                                 }))}
                             </div>
-
+                            <div>
+                                <button onClick={() => setRooms([...rooms, { adults: 2, children: [{ age: 0 }] }])}>
+                                    Add Room
+                                </button>
+                            </div>
                         </div>
 
                     </div>
