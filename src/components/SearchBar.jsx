@@ -168,7 +168,7 @@ const SearchBar = () => {
                             <button className='hover:bg-gray-500/40 w-full' onClick={() => decrementPerson('adults', i)}>
                                 -
                             </button>
-                            <input type="number" value={adults} className='w-full border-2 text-center' onChange={(e) => updatePerson('adults', e.target.value, i)} />
+                            <input type="number" min={0} value={adults} className='w-full border-2 text-center' onChange={(e) => updatePerson('adults', e.target.value, i)} />
                             <button className='hover:bg-gray-500/40 w-full' onClick={() => addPerson('adults', i)}>
                                 +
                             </button>
@@ -181,7 +181,7 @@ const SearchBar = () => {
                             <button className='hover:bg-gray-500/40 w-full' onClick={() => decrementPerson('children', i)}>
                                 -
                             </button>
-                            <input type="number" value={children.length} className='w-full border-2 text-center' onChange={(e) => updatePerson('children', e.target.value, i)} />
+                            <input type="number" min={0} value={children.length} className='w-full border-2 text-center' onChange={(e) => updatePerson('children', e.target.value, i)} />
                             <button className='hover:bg-gray-500/40 w-full' onClick={() => addPerson('children', i)}>
                                 +
                             </button>
