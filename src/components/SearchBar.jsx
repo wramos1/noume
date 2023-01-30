@@ -165,7 +165,7 @@ const SearchBar = () => {
                             Adults
                         </h2>
                         <div className='flex justify-evenly w-1/2 border-green-500 border'>
-                            <button className='hover:bg-gray-500/40 w-full' onClick={() => decrementPerson('adults', i)}>
+                            <button className='hover:bg-gray-500/40 w-full disabled:cursor-not-allowed' disabled={adults === 1} onClick={() => decrementPerson('adults', i)}>
                                 -
                             </button>
                             <input type="number" min={0} value={adults} className='w-full border-2 text-center' onChange={(e) => updatePerson('adults', e.target.value, i)} />
@@ -178,7 +178,7 @@ const SearchBar = () => {
                     <div className='flex justify-between'>
                         <h2>Children</h2>
                         <div className='flex justify-evenly w-1/2 border-green-500 border'>
-                            <button className='hover:bg-gray-500/40 w-full' onClick={() => decrementPerson('children', i)}>
+                            <button className='hover:bg-gray-500/40 w-full disabled:cursor-not-allowed' disabled={children.length === 0} onClick={() => decrementPerson('children', i)}>
                                 -
                             </button>
                             <input type="number" min={0} value={children.length} className='w-full border-2 text-center' onChange={(e) => updatePerson('children', e.target.value, i)} />
@@ -190,6 +190,16 @@ const SearchBar = () => {
                 </div >
             )
         })
+    };
+
+    const deleteRoom = () => {
+        if (rooms.length === 1) {
+            alert('Must have at least one room');
+            return;
+        }
+        let copyState = [...rooms];
+        copyState.pop();
+        setRooms(copyState);
     }
 
     return (
@@ -277,12 +287,13 @@ const SearchBar = () => {
                         <label htmlFor="people" className="cursor-pointer text-xs">{rooms.length} Rooms</label>
                         <button
                             id='people'
+                            onClick={() => document.querySelector('#peopleList').classList.toggle('hidden')}
                         >
                             {rooms.reduce((accum, room) => accum + room.adults, 0)} Adults,
                             {rooms.reduce((accum, room) => accum + room.children.length, 0)} Children
                         </button>
 
-                        <div className='absolute mt-12 border border-black min-w-[200px] -left-10'>
+                        <div id='peopleList' className='hidden absolute mt-12 border border-black min-w-[200px] -left-10'>
                             {mapThroughRooms()}
                             <div className='flex flex-wrap'>
                                 {rooms.map((room) => room.children.map((child, i) => {
@@ -314,6 +325,9 @@ const SearchBar = () => {
                             <div>
                                 <button onClick={() => setRooms([...rooms, { adults: 2, children: [{ age: 0 }] }])}>
                                     Add Room
+                                </button>
+                                <button onClick={() => deleteRoom()}>
+                                    Remove Room
                                 </button>
                             </div>
                         </div>
