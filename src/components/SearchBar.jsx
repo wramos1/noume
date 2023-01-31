@@ -221,13 +221,13 @@ const SearchBar = () => {
                             onFocus={toggleLocations}
                             className="min-w-[250px] outline-none text-lg placeholder:text-sm cursor-pointer"
                         />
-                        <div className='absolute mt-12' >
+                        <div className='absolute mt-12 -left-[41px]' >
                             <ul className='locations bg-blue-500 hidden'>
                                 {predictedLocations.length ?
                                     predictedLocations.map((location, i) => {
                                         return (
                                             <li
-                                                className='bg-black border w-[400px] border-white text-white cursor-pointer hover:bg-slate-500'
+                                                className='primary-bg-color border w-[400px] border-black text-white cursor-pointer hover:icon-bg'
                                                 key={location.essId.sourceId}
                                                 onClick={(e) => setLocation({ name: location.regionNames.primaryDisplayName, index: location.index, coordinates: { lat: location.coordinates.lat, long: location.coordinates.long } })}
                                             >
@@ -254,7 +254,7 @@ const SearchBar = () => {
                         </button>
 
                         <Calendar
-                            className={'hidden checkIn transition-all absolute'}
+                            className={'hidden checkIn transition-all absolute -left-[45px]'}
                             onChange={(e) => setCheckInDate(e)}
                             minDate={new Date()}
                         />
@@ -274,7 +274,7 @@ const SearchBar = () => {
                         </button>
 
                         <Calendar
-                            className={'hidden checkOut transition-all absolute'}
+                            className={'hidden checkOut transition-all absolute -left-[45px]'}
                             onChange={(e) => setCheckOutDate(e)}
                             minDate={setMinCheckOutDate()}
                         />
@@ -289,16 +289,20 @@ const SearchBar = () => {
                             id='people'
                             onClick={() => document.querySelector('#peopleList').classList.toggle('hidden')}
                         >
-                            {rooms.reduce((accum, room) => accum + room.adults, 0)} Adults,
-                            {rooms.reduce((accum, room) => accum + room.children.length, 0)} Children
+                            {rooms.reduce((accum, room) => accum + room.adults, 0)} Adults, {rooms.reduce((accum, room) => accum + room.children.length, 0)} Children
                         </button>
 
-                        <div id='peopleList' className='hidden absolute mt-12 border border-black min-w-[200px] -left-10'>
+                        <div id='peopleList' className='hidden absolute mt-12 border border-black min-w-[200px] -left-[44px]'>
                             {mapThroughRooms()}
-                            <div className='flex flex-wrap'>
+
+                            <h1 className='text-xs mt-1'>
+                                Children's Age(Required)
+                            </h1>
+                            <div className='flex flex-wrap gap-5 px-2'>
                                 {rooms.map((room) => room.children.map((child, i) => {
                                     return (
                                         <select
+                                            className='border border-black'
                                             key={i}
                                             defaultValue={child.age}
                                             onChange={(e) => handleChildrenAgeChange(e.target.value, i, room)}
@@ -322,11 +326,18 @@ const SearchBar = () => {
                                     )
                                 }))}
                             </div>
-                            <div>
-                                <button onClick={() => setRooms([...rooms, { adults: 2, children: [{ age: 0 }] }])}>
+
+                            <div className='mt-5 text-sm flex justify-between'>
+                                <button
+                                    onClick={() => setRooms([...rooms, { adults: 2, children: [{ age: 0 }] }])}
+                                    className='bg-blue-500'
+                                >
                                     Add Room
                                 </button>
-                                <button onClick={() => deleteRoom()}>
+                                <button
+                                    onClick={() => deleteRoom()}
+                                    className='bg-red-600'
+                                >
                                     Remove Room
                                 </button>
                             </div>
