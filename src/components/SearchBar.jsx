@@ -13,7 +13,8 @@ const SearchBar = () => {
     const [checkOut, setCheckOut] = useState({ day: null, month: null, year: null, strDate: '' });
     const [rooms, setRooms] = useState([{ adults: 2, children: [{ age: 0 }] }]);
 
-
+    let adultLength = rooms.reduce((accum, room) => accum + room.adults, 0);
+    let childrenLength = rooms.reduce((accum, room) => accum + room.children.length, 0);
 
     const fetchLocations = async () => {
         const results = await fetch(`https://hotels4.p.rapidapi.com/locations/v3/search?q=${term}`, {
@@ -164,11 +165,11 @@ const SearchBar = () => {
                         <h2 className=''>
                             Adults
                         </h2>
-                        <div className='flex justify-evenly w-1/2 border-green-500 border'>
-                            <button className='hover:bg-gray-500/40 w-full disabled:cursor-not-allowed' disabled={adults === 1} onClick={() => decrementPerson('adults', i)}>
+                        <div className='flex justify-evenly w-1/2 border'>
+                            <button className='hover:bg-gray-500/40 w-full disabled:cursor-not-allowed disabled:text-slate-400 disabled:hover:bg-slate-800/10' disabled={adults === 1} onClick={() => decrementPerson('adults', i)}>
                                 -
                             </button>
-                            <input type="number" min={0} value={adults} className='w-full border-2 text-center' onChange={(e) => updatePerson('adults', e.target.value, i)} />
+                            <input type="number" min={0} value={adults} className='w-full border text-center' onChange={(e) => updatePerson('adults', e.target.value, i)} />
                             <button className='hover:bg-gray-500/40 w-full' onClick={() => addPerson('adults', i)}>
                                 +
                             </button>
@@ -177,11 +178,11 @@ const SearchBar = () => {
 
                     <div className='flex justify-between'>
                         <h2>Children</h2>
-                        <div className='flex justify-evenly w-1/2 border-green-500 border'>
-                            <button className='hover:bg-gray-500/40 w-full disabled:cursor-not-allowed' disabled={children.length === 0} onClick={() => decrementPerson('children', i)}>
+                        <div className='flex justify-evenly w-1/2 border'>
+                            <button className='hover:bg-gray-500/40 w-full disabled:cursor-not-allowed disabled:text-slate-400 disabled:hover:bg-slate-800/10' disabled={children.length === 0} onClick={() => decrementPerson('children', i)}>
                                 -
                             </button>
-                            <input type="number" min={0} value={children.length} className='w-full border-2 text-center' onChange={(e) => updatePerson('children', e.target.value, i)} />
+                            <input type="number" min={0} value={children.length} className='w-full border text-center' onChange={(e) => updatePerson('children', e.target.value, i)} />
                             <button className='hover:bg-gray-500/40 w-full' onClick={() => addPerson('children', i)}>
                                 +
                             </button>
@@ -192,6 +193,46 @@ const SearchBar = () => {
         })
     };
 
+    const mapChildrensAge = rooms.map((room) => room.children.map((child, i) => {
+        return (
+            <select
+                className='border border-black'
+                key={i}
+                defaultValue={child.age}
+                onChange={(e) => handleChildrenAgeChange(e.target.value, i, room)}
+            >
+                <option value="0">
+                    0
+                </option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+            </select>
+        )
+    })
+    )
+
+    const mapChildrenJSX = () => {
+        if (childrenLength === 0) {
+            return null;
+        }
+        return (
+            <div className='flex flex-wrap gap-5 px-2'>
+                <h1>Children's Age(Required)</h1>
+                {mapChildrensAge}
+            </div>
+        )
+    }
+
     const deleteRoom = () => {
         if (rooms.length === 1) {
             alert('Must have at least one room');
@@ -200,7 +241,7 @@ const SearchBar = () => {
         let copyState = [...rooms];
         copyState.pop();
         setRooms(copyState);
-    }
+    };
 
     return (
         <div className='h-screen'>
@@ -222,12 +263,12 @@ const SearchBar = () => {
                             className="min-w-[250px] outline-none text-lg placeholder:text-sm cursor-pointer"
                         />
                         <div className='absolute mt-12 -left-[41px]' >
-                            <ul className='locations bg-blue-500 hidden'>
+                            <ul className='locations hidden'>
                                 {predictedLocations.length ?
                                     predictedLocations.map((location, i) => {
                                         return (
                                             <li
-                                                className='primary-bg-color border w-[400px] border-black text-white cursor-pointer hover:icon-bg'
+                                                className='p-1 border min-w-[450px] border-black cursor-pointer hover:text-black hover:bg-slate-400/50'
                                                 key={location.essId.sourceId}
                                                 onClick={(e) => setLocation({ name: location.regionNames.primaryDisplayName, index: location.index, coordinates: { lat: location.coordinates.lat, long: location.coordinates.long } })}
                                             >
@@ -289,44 +330,12 @@ const SearchBar = () => {
                             id='people'
                             onClick={() => document.querySelector('#peopleList').classList.toggle('hidden')}
                         >
-                            {rooms.reduce((accum, room) => accum + room.adults, 0)} Adults, {rooms.reduce((accum, room) => accum + room.children.length, 0)} Children
+                            {adultLength} Adults, {childrenLength} Children
                         </button>
 
                         <div id='peopleList' className='hidden absolute mt-12 border border-black min-w-[200px] -left-[44px]'>
                             {mapThroughRooms()}
-
-                            <h1 className='text-xs mt-1'>
-                                Children's Age(Required)
-                            </h1>
-                            <div className='flex flex-wrap gap-5 px-2'>
-                                {rooms.map((room) => room.children.map((child, i) => {
-                                    return (
-                                        <select
-                                            className='border border-black'
-                                            key={i}
-                                            defaultValue={child.age}
-                                            onChange={(e) => handleChildrenAgeChange(e.target.value, i, room)}
-                                        >
-                                            <option value="0">
-                                                0
-                                            </option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
-                                            <option value="9">9</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                        </select>
-                                    )
-                                }))}
-                            </div>
-
+                            {mapChildrenJSX()}
                             <div className='mt-5 text-sm flex justify-between'>
                                 <button
                                     onClick={() => setRooms([...rooms, { adults: 2, children: [{ age: 0 }] }])}
