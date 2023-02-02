@@ -13,6 +13,7 @@ const SearchBar = () => {
     const [checkOut, setCheckOut] = useState({ day: null, month: null, year: null, strDate: '' });
     const [rooms, setRooms] = useState([{ adults: 2, children: [{ age: 0 }] }]);
 
+
     let adultLength = rooms.reduce((accum, room) => accum + room.adults, 0);
     let childrenLength = rooms.reduce((accum, room) => accum + room.children.length, 0);
 
@@ -157,11 +158,11 @@ const SearchBar = () => {
             const { adults, children } = room;
             return (
                 <div key={i} className='flex flex-col gap-5 border-black border-b'>
-                    <p className='text-xs font-black underline'>
+                    <p className='text-sm font-black underline pl-2'>
                         Room {i + 1}
                     </p>
 
-                    <div className='flex justify-between'>
+                    <div className='flex justify-between px-3'>
                         <h2 className=''>
                             Adults
                         </h2>
@@ -176,7 +177,7 @@ const SearchBar = () => {
                         </div>
                     </div>
 
-                    <div className='flex justify-between'>
+                    <div className='flex justify-between px-3'>
                         <h2>Children</h2>
                         <div className='flex justify-evenly w-1/2 border'>
                             <button className='hover:bg-gray-500/40 w-full disabled:cursor-not-allowed disabled:text-slate-400 disabled:hover:bg-slate-800/10' disabled={children.length === 0} onClick={() => decrementPerson('children', i)}>
@@ -226,9 +227,13 @@ const SearchBar = () => {
             return null;
         }
         return (
-            <div className='flex flex-wrap gap-5 px-2'>
-                <h1>Children's Age(Required)</h1>
-                {mapChildrensAge}
+            <div className='flex flex-col gap-2 pt-1'>
+                <h1 className='text-sm pl-2'>
+                    Children's Age (Required)
+                </h1>
+                <div className='flex flex-wrap gap-3 mx-2'>
+                    {mapChildrensAge}
+                </div>
             </div>
         )
     }
@@ -242,6 +247,35 @@ const SearchBar = () => {
         copyState.pop();
         setRooms(copyState);
     };
+
+    const printParams = () => {
+        let fetchParams = {
+            destination: {
+                coordinates: selectedLocation.coordinates
+            },
+            checkInDate: {
+                day: checkIn.day,
+                month: checkIn.month,
+                year: checkIn.year
+            },
+            checkOutDate: {
+                day: checkOut.day,
+                month: checkOut.month,
+                year: checkOut.year
+            },
+            rooms,
+            resultsStartingIndex: 0,
+            resultsSize: 10,
+            sort: "PRICE_LOW_TO_HIGH",
+            filters: {
+                price: {
+                    max: 150,
+                    min: 100
+                }
+            }
+        }
+        console.log(JSON.stringify(fetchParams))
+    }
 
     return (
         <div className='h-screen'>
@@ -265,7 +299,7 @@ const SearchBar = () => {
                         <div className='absolute mt-12 -left-[41px]' >
                             <ul className='locations hidden'>
                                 {predictedLocations.length ?
-                                    predictedLocations.map((location, i) => {
+                                    predictedLocations.map((location) => {
                                         return (
                                             <li
                                                 className='p-1 border min-w-[450px] border-black cursor-pointer hover:text-black hover:bg-slate-400/50'
@@ -326,6 +360,7 @@ const SearchBar = () => {
                     <img src={Person} alt="person icon" className='w-[23px]' />
                     <div className='flex flex-col relative'>
                         <label htmlFor="people" className="cursor-pointer text-xs">{rooms.length} Rooms</label>
+
                         <button
                             id='people'
                             onClick={() => document.querySelector('#peopleList').classList.toggle('hidden')}
@@ -333,21 +368,31 @@ const SearchBar = () => {
                             {adultLength} Adults, {childrenLength} Children
                         </button>
 
-                        <div id='peopleList' className='hidden absolute mt-12 border border-black min-w-[200px] -left-[44px]'>
-                            {mapThroughRooms()}
+                        <div id='peopleList' className='hidden absolute mt-12 border border-black min-w-[250px] -left-[44px]'>
+                            <>
+                                <button
+                                    className='text-sm absolute right-0 top-0 border border-black px-1 hover:bg-gray-400/50'
+                                    onClick={() => document.querySelector('#peopleList').classList.add('hidden')}
+
+                                >
+                                    Close
+                                </button>
+                                {mapThroughRooms()}
+                            </>
                             {mapChildrenJSX()}
+
                             <div className='mt-5 text-sm flex justify-between'>
                                 <button
-                                    onClick={() => setRooms([...rooms, { adults: 2, children: [{ age: 0 }] }])}
-                                    className='bg-blue-500'
-                                >
-                                    Add Room
-                                </button>
-                                <button
                                     onClick={() => deleteRoom()}
-                                    className='bg-red-600'
+                                    className='m-1 w-1/2 py-1 bg-red-500 hover:bg-red-600'
                                 >
                                     Remove Room
+                                </button>
+                                <button
+                                    onClick={() => setRooms([...rooms, { adults: 2, children: [{ age: 0 }] }])}
+                                    className='m-1 w-1/2 py-1 bg-green-500 hover:bg-green-600'
+                                >
+                                    Add Room
                                 </button>
                             </div>
                         </div>
@@ -357,6 +402,11 @@ const SearchBar = () => {
 
             </div>
 
+            <div className='w-full flex justify-center items-center'>
+                <button className='border border-black px-3 py-1 rounded-md' onClick={() => printParams()}>
+                    Search
+                </button>
+            </div>
         </div>
     )
 }
