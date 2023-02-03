@@ -4,6 +4,7 @@ import Navbar from './Navbar';
 import Ping from '../images/ping.png';
 import CalendarIcon from '../images/calendar.png';
 import Person from '../images/person.png';
+import NoumesList from './NoumesList';
 
 const SearchBar = () => {
     const [term, setTerm] = useState('');
@@ -12,6 +13,7 @@ const SearchBar = () => {
     const [checkIn, setCheckIn] = useState({ day: null, month: null, year: null, strDate: '' });
     const [checkOut, setCheckOut] = useState({ day: null, month: null, year: null, strDate: '' });
     const [rooms, setRooms] = useState([{ adults: 2, children: [{ age: 0 }] }]);
+    const [noumes, setNoumes] = useState([]);
 
 
     let adultLength = rooms.reduce((accum, room) => accum + room.adults, 0);
@@ -275,6 +277,7 @@ const SearchBar = () => {
             }
         }
         console.log(JSON.stringify(fetchParams))
+        //Setting Noumes from Data received in API call
     }
 
     return (
@@ -407,6 +410,10 @@ const SearchBar = () => {
                     Search
                 </button>
             </div>
+
+            {noumes.length > 0 &&
+                <NoumesList noumes={noumes} />
+            }
         </div>
     )
 }
