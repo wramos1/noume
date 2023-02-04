@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import Calendar from 'react-calendar';
-import Navbar from './Navbar';
 import Ping from '../images/ping.png';
 import CalendarIcon from '../images/calendar.png';
 import Person from '../images/person.png';
-import NoumesList from './NoumesList';
 
-const SearchBar = () => {
+const SearchBar = ({ sentNoumes }) => {
     const [term, setTerm] = useState('');
     const [predictedLocations, setPredictedLocations] = useState([]);
     const [selectedLocation, setSelectedLocation] = useState({ index: null, name: '', coordinates: { lat: null, long: null } });
     const [checkIn, setCheckIn] = useState({ day: null, month: null, year: null, strDate: '' });
     const [checkOut, setCheckOut] = useState({ day: null, month: null, year: null, strDate: '' });
     const [rooms, setRooms] = useState([{ adults: 2, children: [{ age: 0 }] }]);
-    const [noumes, setNoumes] = useState([]);
 
 
     let adultLength = rooms.reduce((accum, room) => accum + room.adults, 0);
@@ -276,13 +273,12 @@ const SearchBar = () => {
                 }
             }
         }
-        console.log(JSON.stringify(fetchParams))
+        sentNoumes(JSON.stringify(fetchParams))
         //Setting Noumes from Data received in API call
     }
 
     return (
-        <div className='h-screen'>
-            <Navbar bg={'icon-bg'} paddingSize={'py-5'} />
+        <div>
             <div className='flex pt-20 justify-around items-center'>
                 <div className='flex items-center justify-between gap-3 px-2 transition-all border-2 hover:border-black focus:border-black'>
                     <div>
@@ -406,15 +402,16 @@ const SearchBar = () => {
             </div>
 
             <div className='w-full flex justify-center items-center'>
-                <button className='border border-black px-3 py-1 rounded-md' onClick={() => printParams()}>
+                <button
+                    className='border border-black px-3 py-1 rounded-md'
+                    onClick={() => printParams()}
+                >
                     Search
                 </button>
             </div>
-
-            {noumes.length > 0 &&
-                <NoumesList noumes={noumes} />
-            }
         </div>
+
+
     )
 }
 
