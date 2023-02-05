@@ -279,8 +279,8 @@ const SearchBar = ({ sentNoumes }) => {
 
     return (
         <div>
-            <div className='flex pt-20 justify-around items-center'>
-                <div className='flex items-center justify-between gap-3 px-2 transition-all border-2 hover:border-black focus:border-black'>
+            <div className='flex justify-around items-center'>
+                <div className='flex items-center justify-between gap-3 px-2 transition-all bg-white border-2 hover:border-black focus:border-black'>
                     <div>
                         <img src={Ping} alt="" className='w-[20px]' />
                     </div>
@@ -315,7 +315,7 @@ const SearchBar = ({ sentNoumes }) => {
                     </div>
                 </div>
 
-                <div className='flex items-center gap-3 px-2 py-1 justify-between transition-all border-2 hover:border-black focus:border-black'>
+                <div className='flex items-center gap-3 px-2 py-1 justify-between transition-all bg-white border-2 hover:border-black focus:border-black'>
                     <img src={CalendarIcon} alt="calendar icon" className='w-[23px]' />
                     <div className='flex flex-col relative'>
                         <label className='cursor-pointer text-xs' htmlFor="checkInBtn">Check In</label>
@@ -335,7 +335,7 @@ const SearchBar = ({ sentNoumes }) => {
                     </div>
                 </div>
 
-                <div className='flex items-center gap-3 px-2 py-1 justify-between transition-all border-2 hover:border-black focus:border-black'>
+                <div className='flex items-center gap-3 px-2 py-1 justify-between transition-all bg-white border-2 hover:border-black focus:border-black'>
                     <img src={CalendarIcon} alt="calendar icon" className='w-[23px]' />
                     <div className='flex flex-col relative'>
                         <label className='cursor-pointer text-xs' htmlFor="checkOutBtn">Check Out</label>
@@ -355,7 +355,7 @@ const SearchBar = ({ sentNoumes }) => {
                     </div>
                 </div>
 
-                <div className='flex items-center gap-3 px-2 py-1 justify-between transition-all border-2 hover:border-black focus:border-black'>
+                <div className='flex items-center gap-3 px-2 py-1 justify-between transition-all bg-white border-2 hover:border-black focus:border-black'>
                     <img src={Person} alt="person icon" className='w-[23px]' />
                     <div className='flex flex-col relative'>
                         <label htmlFor="people" className="cursor-pointer text-xs">{rooms.length} Rooms</label>
@@ -367,7 +367,7 @@ const SearchBar = ({ sentNoumes }) => {
                             {adultLength} Adults, {childrenLength} Children
                         </button>
 
-                        <div id='peopleList' className='hidden absolute mt-12 border border-black min-w-[250px] -left-[44px]'>
+                        <div id='peopleList' className='hidden absolute mt-12 border border-black min-w-[250px] -left-[67px] max-h-[150px] bg-red-400'>
                             <>
                                 <button
                                     className='text-sm absolute right-0 top-0 border border-black px-1 hover:bg-gray-400/50'
@@ -401,9 +401,9 @@ const SearchBar = ({ sentNoumes }) => {
 
             </div>
 
-            <div className='w-full flex justify-center items-center'>
+            <div className='w-full flex justify-center items-center pt-3'>
                 <button
-                    className='border border-black px-3 py-1 rounded-md'
+                    className='bg-white border border-black px-3 py-1 rounded-md'
                     onClick={() => printParams()}
                 >
                     Search

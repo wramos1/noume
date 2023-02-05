@@ -8,7 +8,7 @@ import Navbar from './Navbar';
 
 const Home = () => {
     return (
-        <div>
+        <div className='relative'>
             <Navbar />
             {/* Hero Section */}
             <div className='hero w-full min-h-[95vh] relative'>
@@ -28,6 +28,12 @@ const Home = () => {
                     NEW
                 </h1>
 
+                <div className='absolute bottom-0 w-full'>
+                    <div className='rounded-md m-12 py-10 bg-slate-500/60'>
+                        <SearchBar />
+                    </div>
+                </div>
+
             </div>
 
             {/* Popular Stays Section */}
@@ -41,8 +47,8 @@ const Home = () => {
                         popularStays.map((stay, i) => {
                             const { imgSrc, imgAlt, title } = stay;
                             return (
-                                <div key={i} className='flex flex-col justify-around items-center max-w-[250px] h-[300px] basis-1/4 hover:primary-txt-color group cursor-pointer'>
-                                    <img src={imgSrc} alt={imgAlt} className='rounded-[50%] w-[220px] h-[220px] group-hover:primary-border group-hover:scale-105 transition-all' />
+                                <div key={i} className='flex flex-col justify-around items-center max-w-[200px] h-[250px] basis-1/4 hover:primary-txt-color group cursor-pointer'>
+                                    <img src={imgSrc} alt={imgAlt} className='rounded-[50%] w-[200px] h-[200px] group-hover:primary-border group-hover:scale-105 transition-all' />
                                     <p>{title}</p>
                                 </div>
                             )
