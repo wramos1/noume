@@ -2,7 +2,7 @@ import React from 'react'
 
 const Footer = () => {
     return (
-        <div className='primary-bg-color secondary-txt-color px-36 flex flex-col gap-3'>
+        <div id='footer' className='primary-bg-color secondary-txt-color px-36 flex flex-col gap-3'>
             <h1 className='text-2xl py-4'>Noume</h1>
 
             <div className='flex justify-evenly'>

@@ -14,12 +14,22 @@ const Navbar = (props) => {
 
             <div className='w-1/2'>
                 <ul className='text-base flex flex-row justify-around items-center'>
-                    <li>
+                    <li
+                        className='hover:text-slate-600 cursor-pointer'
+                        onClick={() => {
+                            document.querySelector('#newsletter').scrollIntoView({ behavior: 'smooth' })
+                        }}
+                    >
                         Newsletter
                     </li>
 
-                    <li>
-                        Contact Us
+                    <li
+                        className='hover:text-slate-600 cursor-pointer'
+                        onClick={() => {
+                            document.querySelector('#footer').scrollIntoView({ behavior: 'smooth' })
+                        }}
+                    >
+                        Support
                     </li>
 
                     <li>

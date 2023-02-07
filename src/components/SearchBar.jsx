@@ -166,11 +166,11 @@ const SearchBar = ({ sentNoumes }) => {
                             Adults
                         </h2>
                         <div className='flex justify-evenly w-1/2 border'>
-                            <button className='hover:bg-gray-500/40 w-full disabled:cursor-not-allowed disabled:text-slate-400 disabled:hover:bg-slate-800/10' disabled={adults === 1} onClick={() => decrementPerson('adults', i)}>
+                            <button className='hover:bg-gray-500/40 w-full py-1 disabled:cursor-not-allowed disabled:text-slate-400 disabled:hover:bg-slate-800/10' disabled={adults === 1} onClick={() => decrementPerson('adults', i)}>
                                 -
                             </button>
                             <input type="number" min={0} value={adults} className='w-full border text-center' onChange={(e) => updatePerson('adults', e.target.value, i)} />
-                            <button className='hover:bg-gray-500/40 w-full' onClick={() => addPerson('adults', i)}>
+                            <button className='hover:bg-gray-500/40 w-full py-1' onClick={() => addPerson('adults', i)}>
                                 +
                             </button>
                         </div>
@@ -179,11 +179,11 @@ const SearchBar = ({ sentNoumes }) => {
                     <div className='flex justify-between px-3'>
                         <h2>Children</h2>
                         <div className='flex justify-evenly w-1/2 border'>
-                            <button className='hover:bg-gray-500/40 w-full disabled:cursor-not-allowed disabled:text-slate-400 disabled:hover:bg-slate-800/10' disabled={children.length === 0} onClick={() => decrementPerson('children', i)}>
+                            <button className='hover:bg-gray-500/40 w-full py-1 disabled:cursor-not-allowed disabled:text-slate-400 disabled:hover:bg-slate-800/10' disabled={children.length === 0} onClick={() => decrementPerson('children', i)}>
                                 -
                             </button>
                             <input type="number" min={0} value={children.length} className='w-full border text-center' onChange={(e) => updatePerson('children', e.target.value, i)} />
-                            <button className='hover:bg-gray-500/40 w-full' onClick={() => addPerson('children', i)}>
+                            <button className='hover:bg-gray-500/40 w-full py-1' onClick={() => addPerson('children', i)}>
                                 +
                             </button>
                         </div>
@@ -295,7 +295,7 @@ const SearchBar = ({ sentNoumes }) => {
                             onFocus={toggleLocations}
                             className="min-w-[250px] outline-none text-lg placeholder:text-sm cursor-pointer"
                         />
-                        <div className='absolute mt-12 -left-[41px]' >
+                        <div className='absolute mt-12 -left-[41px] max-h-[150px] overflow-y-auto' >
                             <ul className='locations hidden'>
                                 {predictedLocations.length ?
                                     predictedLocations.map((location) => {
@@ -322,7 +322,10 @@ const SearchBar = ({ sentNoumes }) => {
                         <button
                             id='checkInBtn'
                             className='text-md'
-                            onClick={() => document.querySelector('.checkIn').classList.toggle('hidden')}
+                            onClick={() => {
+                                document.querySelector('.checkIn').classList.toggle('hidden');
+                                document.querySelector('.checkIn').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }}
                         >
                             {checkIn.strDate === '' ? 'Select Date' : `${checkIn.strDate}`}
                         </button>
@@ -342,7 +345,10 @@ const SearchBar = ({ sentNoumes }) => {
                         <button
                             id='checkOutBtn'
                             className='text-md'
-                            onClick={() => document.querySelector('.checkOut').classList.toggle('hidden')}
+                            onClick={() => {
+                                document.querySelector('.checkOut').classList.toggle('hidden');
+                                document.querySelector('.checkOut').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }}
                         >
                             {checkOut.strDate === '' ? 'Select Date' : `${checkOut.strDate}`}
                         </button>
@@ -362,15 +368,18 @@ const SearchBar = ({ sentNoumes }) => {
 
                         <button
                             id='people'
-                            onClick={() => document.querySelector('#peopleList').classList.toggle('hidden')}
+                            onClick={() => {
+                                document.querySelector('#peopleList').classList.toggle('hidden');
+                                document.querySelector('#peopleList').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }}
                         >
                             {adultLength} Adults, {childrenLength} Children
                         </button>
 
-                        <div id='peopleList' className='hidden absolute mt-12 border border-black min-w-[250px] -left-[67px] max-h-[150px] bg-red-400'>
+                        <div id='peopleList' className='hidden absolute mt-12 border border-black min-w-[300px] -left-[85px] bg-white max-h-[200px] overflow-y-auto'>
                             <>
                                 <button
-                                    className='text-sm absolute right-0 top-0 border border-black px-1 hover:bg-gray-400/50'
+                                    className='text-sm absolute right-0 top-1 border border-black px-1 hover:bg-gray-400/50'
                                     onClick={() => document.querySelector('#peopleList').classList.add('hidden')}
 
                                 >

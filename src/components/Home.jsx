@@ -114,7 +114,7 @@ const Home = () => {
             </div>
 
             {/* Newsletter Section */}
-            <div className='bg-black secondary-txt-color flex flex-col items-center justify-center min-h-[45vh] my-4'>
+            <div id='newsletter' className='bg-black secondary-txt-color flex flex-col items-center justify-center min-h-[45vh] my-4'>
                 <div>
                     <h1 className='text-4xl pb-5'>
                         Subscribe To Our Newsletter
