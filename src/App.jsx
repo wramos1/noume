@@ -3,7 +3,7 @@ import FindNoumes from './components/FindNoumes'
 import Footer from './components/Footer'
 import Home from './components/Home'
 import NotFound from './components/NotFound'
-import SearchBar from './components/SearchBar'
+import { QueriesContext } from './data/QueriesContext'
 
 export function App() {
   return (
@@ -18,8 +18,10 @@ export function App() {
 export function WrappedApp() {
   return (
     <HashRouter>
-      <App />
+      <QueriesContext.Provider value={'Hello'}>
+        <App />
+      </QueriesContext.Provider>
       <Footer />
-    </HashRouter>
+    </HashRouter >
   )
 }

@@ -364,7 +364,7 @@ const SearchBar = ({ sentNoumes }) => {
                 <div className='flex items-center gap-3 px-2 py-1 justify-between transition-all bg-white border-2 hover:border-black focus:border-black'>
                     <img src={Person} alt="person icon" className='w-[23px]' />
                     <div className='flex flex-col relative'>
-                        <label htmlFor="people" className="cursor-pointer text-xs">{rooms.length} Rooms</label>
+                        <label htmlFor="people" className="cursor-pointer text-xs">{rooms.length > 1 ? `${rooms.length} Rooms` : '1 Room'}</label>
 
                         <button
                             id='people'
@@ -376,10 +376,10 @@ const SearchBar = ({ sentNoumes }) => {
                             {adultLength} Adults, {childrenLength} Children
                         </button>
 
-                        <div id='peopleList' className='hidden absolute mt-12 border border-black min-w-[300px] -left-[85px] bg-white max-h-[200px] overflow-y-auto'>
+                        <div id='peopleList' className='hidden absolute mt-12 border border-black min-w-[300px] -left-[85px] bg-white max-h-[250px] overflow-y-auto'>
                             <>
                                 <button
-                                    className='text-sm absolute right-0 top-1 border border-black px-1 hover:bg-gray-400/50'
+                                    className='text-sm absolute right-1 top-1 border border-black px-1 hover:bg-gray-400/50'
                                     onClick={() => document.querySelector('#peopleList').classList.add('hidden')}
 
                                 >
