@@ -1,17 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Calendar from 'react-calendar';
 import Ping from '../images/ping.png';
 import CalendarIcon from '../images/calendar.png';
 import Person from '../images/person.png';
+import { QueriesContext } from '../data/QueriesContext';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-const SearchBar = ({ sentNoumes }) => {
+const SearchBar = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
     const [term, setTerm] = useState('');
     const [predictedLocations, setPredictedLocations] = useState([]);
-    const [selectedLocation, setSelectedLocation] = useState({ index: null, name: '', coordinates: { lat: null, long: null } });
-    const [checkIn, setCheckIn] = useState({ day: null, month: null, year: null, strDate: '' });
-    const [checkOut, setCheckOut] = useState({ day: null, month: null, year: null, strDate: '' });
-    const [rooms, setRooms] = useState([{ adults: 2, children: [{ age: 0 }] }]);
-
+    const { selectedLocation, setSelectedLocation } = useContext(QueriesContext);
+    const { checkIn, setCheckIn } = useContext(QueriesContext);
+    const { checkOut, setCheckOut } = useContext(QueriesContext);
+    const { rooms, setRooms } = useContext(QueriesContext);
+    const { setNoumes } = useContext(QueriesContext)
 
     let adultLength = rooms.reduce((accum, room) => accum + room.adults, 0);
     let childrenLength = rooms.reduce((accum, room) => accum + room.children.length, 0);
@@ -273,7 +277,12 @@ const SearchBar = ({ sentNoumes }) => {
                 }
             }
         }
-        sentNoumes(JSON.stringify(fetchParams))
+
+        if (location.pathname !== '/find-hotels') {
+            navigate('/find-hotels');
+        }
+
+        setNoumes(JSON.stringify(fetchParams))
         //Setting Noumes from Data received in API call
     }
 

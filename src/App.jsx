@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import FindNoumes from './components/FindNoumes'
 import Footer from './components/Footer'
@@ -16,9 +17,15 @@ export function App() {
 };
 
 export function WrappedApp() {
+  const [selectedLocation, setSelectedLocation] = useState({ index: null, name: '', coordinates: { lat: null, long: null } });
+  const [checkIn, setCheckIn] = useState({ day: null, month: null, year: null, strDate: '' });
+  const [checkOut, setCheckOut] = useState({ day: null, month: null, year: null, strDate: '' });
+  const [rooms, setRooms] = useState([{ adults: 2, children: [{ age: 0 }] }]);
+  const [noumes, setNoumes] = useState('');
+
   return (
     <HashRouter>
-      <QueriesContext.Provider value={'Hello'}>
+      <QueriesContext.Provider value={{ rooms, setRooms, selectedLocation, setSelectedLocation, checkIn, setCheckIn, checkOut, setCheckOut, noumes, setNoumes }}>
         <App />
       </QueriesContext.Provider>
       <Footer />
