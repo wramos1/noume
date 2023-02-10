@@ -421,7 +421,7 @@ const SearchBar = () => {
 
             <div className='w-full flex justify-center items-center pt-3'>
                 <button
-                    className='bg-white border border-black px-3 py-1 rounded-md'
+                    className='primary-btn px-3'
                     onClick={() => printParams()}
                 >
                     Search

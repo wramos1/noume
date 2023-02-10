@@ -1,7 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
+import { useLocation } from 'react-router-dom'
 const Navbar = (props) => {
+    const location = useLocation();
     return (
         <nav className={`flex justify-around items-center absolute z-20 w-full p-9 transition-all ${props.bg} ${props.paddingSize}`}>
             <div className='w-1/2'>
