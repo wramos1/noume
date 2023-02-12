@@ -5,37 +5,29 @@ import { Link } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 const Navbar = (props) => {
     const location = useLocation();
-    const [scrollDir, setScrollDir] = useState("scrolling down");
+    const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
-        const threshold = 0;
-        let lastScrollY = window.pageYOffset;
-        let ticking = false;
+        if (location.pathname === '/') {
+            const moveNavbar = () => {
+                const scrollY = window.pageYOffset;
+                if (scrollY > 0) {
+                    setScrolled(true);
+                    document.querySelector('.nav').classList.remove('absolute', 'p-9');
+                    document.querySelector('.nav').classList.add('fixed', 'bg-slate-800/80', 'p-5', 'text-white');
+                } else {
+                    setScrolled(false);
+                    document.querySelector('.nav').classList.add('absolute', 'p-9');
+                    document.querySelector('.nav').classList.remove('fixed', 'bg-slate-800/80', 'p-5', 'text-white');
+                }
+            };
 
-        const updateScrollDir = () => {
-            const scrollY = window.pageYOffset;
+            window.addEventListener("scroll", moveNavbar);
 
-            if (Math.abs(scrollY - lastScrollY) < threshold) {
-                ticking = false;
-                return;
-            }
-            setScrollDir(scrollY > lastScrollY ? "scrolling down" : "scrolling up");
-            lastScrollY = scrollY > 0 ? scrollY : 0;
-            ticking = false;
-        };
+            return () => window.removeEventListener("scroll", moveNavbar);
+        }
 
-        const onScroll = () => {
-            if (!ticking) {
-                window.requestAnimationFrame(updateScrollDir);
-                ticking = true;
-            }
-        };
-
-        window.addEventListener("scroll", onScroll);
-        console.log(scrollDir);
-
-        return () => window.removeEventListener("scroll", onScroll);
-    }, [scrollDir]);
+    }, [scrolled]);
     return (
         <nav className={`nav flex justify-around items-center absolute z-20 w-full p-9 transition-all ${props.bg} ${props.paddingSize}`}>
             <div className='w-1/2'>
