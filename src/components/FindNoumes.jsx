@@ -10,7 +10,7 @@ const FindNoumes = () => {
 
     return (
         <div className='h-screen'>
-            <Navbar bg={'icon-bg'} paddingSize={'py-5'} />
+            <Navbar bg={'icon-bg'} paddingSize={'py-5 px-4'} />
             <div className='pt-20'>
                 <SearchBar
                 />

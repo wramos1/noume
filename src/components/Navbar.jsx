@@ -29,7 +29,7 @@ const Navbar = (props) => {
 
     }, [scrolled]);
     return (
-        <nav className={`nav flex justify-around items-center absolute z-20 w-full p-9 transition-all ${props.bg} ${props.paddingSize}`}>
+        <nav className={`nav flex justify-around items-center absolute z-20 w-full transition-all ${props.bg} ${props.paddingSize}`}>
             <div className='w-1/2'>
                 <h1 className='text-3xl secondary-txt-color'>
                     <Link to={'/'}>
@@ -41,7 +41,7 @@ const Navbar = (props) => {
             <div className='w-1/2'>
                 <ul className='text-base flex flex-row justify-around items-center'>
                     <li
-                        className='hover:text-slate-600 cursor-pointer'
+                        className='hover:text-slate-500 cursor-pointer'
                         onClick={() => {
                             document.querySelector('#newsletter').scrollIntoView({ behavior: 'smooth' })
                         }}
@@ -50,7 +50,7 @@ const Navbar = (props) => {
                     </li>
 
                     <li
-                        className='hover:text-slate-600 cursor-pointer'
+                        className='hover:text-slate-500 cursor-pointer'
                         onClick={() => {
                             document.querySelector('#footer').scrollIntoView({ behavior: 'smooth' })
                         }}
@@ -58,7 +58,9 @@ const Navbar = (props) => {
                         Support
                     </li>
 
-                    <li>
+                    <li
+                        className='hover:text-slate-500 cursor-pointer'
+                    >
                         My Noumes
                     </li>
 

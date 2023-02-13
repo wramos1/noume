@@ -7,9 +7,15 @@ import SearchBar from './SearchBar';
 import Navbar from './Navbar';
 
 const Home = () => {
+    const simulateNewsletterSubscription = (e) => {
+        e.preventDefault();
+        alert('You have subscribed!');
+        document.querySelector('#newsletterInput').value = '';
+    };
+
     return (
         <div className='relative'>
-            <Navbar />
+            <Navbar bg={'transparent'} paddingSize={'p-9'} />
             {/* Hero Section */}
             <div className='hero w-full min-h-[95vh] relative'>
                 <h1 className='text-[56px] absolute left-[8.26%] right-[78.54%] top-[19.42%] bottom-[71.17%] min-w-[500px] lg:top-[18%]'>
@@ -114,7 +120,11 @@ const Home = () => {
             </div>
 
             {/* Newsletter Section */}
-            <div id='newsletter' className='bg-black secondary-txt-color flex flex-col items-center justify-center min-h-[45vh] my-4'>
+            <form
+                id='newsletter'
+                className='bg-black secondary-txt-color flex flex-col items-center justify-center min-h-[45vh] my-4'
+                onSubmit={(e) => simulateNewsletterSubscription(e)}
+            >
                 <div>
                     <h1 className='text-4xl pb-5'>
                         Subscribe To Our Newsletter
@@ -124,11 +134,11 @@ const Home = () => {
                     </p>
                 </div>
 
-                <input className='w-1/3 py-3 px-1 rounded my-5 text-black placeholder-slate-500 brightness-50 focus:brightness-75 text-lg' type="text" name="" id="" placeholder='Email Address' />
+                <input id='newsletterInput' className='w-1/3 py-3 px-1 rounded my-5 text-black placeholder-slate-500 brightness-50 focus:brightness-75 text-lg' type={'email'} required placeholder='Email Address' />
                 <button className='primary-btn bg-[#8000FF] text-black px-5'>
                     Subscribe
                 </button>
-            </div>
+            </form>
         </div>
     )
 }
