@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { useState } from 'react';
 import { QueriesContext } from '../data/QueriesContext';
 import Navbar from './Navbar'
 import NoumesList from './NoumesList';

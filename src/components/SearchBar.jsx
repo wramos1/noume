@@ -305,7 +305,7 @@ const SearchBar = () => {
                             className="min-w-[250px] outline-none text-lg placeholder:text-sm cursor-pointer"
                         />
                         <div className='absolute mt-12 -left-[41px] max-h-[150px] overflow-y-auto' >
-                            <ul className='locations hidden'>
+                            <ul className='queries locations hidden'>
                                 {predictedLocations.length ?
                                     predictedLocations.map((location) => {
                                         return (
@@ -340,7 +340,7 @@ const SearchBar = () => {
                         </button>
 
                         <Calendar
-                            className={'hidden checkIn transition-all absolute -left-[45px]'}
+                            className={'queries hidden checkIn transition-all absolute -left-[45px]'}
                             onChange={(e) => setCheckInDate(e)}
                             minDate={new Date()}
                         />
@@ -363,7 +363,7 @@ const SearchBar = () => {
                         </button>
 
                         <Calendar
-                            className={'hidden checkOut transition-all absolute -left-[45px]'}
+                            className={'queries hidden checkOut transition-all absolute -left-[45px]'}
                             onChange={(e) => setCheckOutDate(e)}
                             minDate={setMinCheckOutDate()}
                         />
@@ -385,7 +385,7 @@ const SearchBar = () => {
                             {adultLength} Adults, {childrenLength} Children
                         </button>
 
-                        <div id='peopleList' className='hidden absolute mt-12 border border-black min-w-[300px] -left-[85px] bg-white max-h-[250px] overflow-y-auto'>
+                        <div id='peopleList' className='queries hidden absolute mt-12 border border-black min-w-[300px] -left-[85px] bg-white max-h-[250px] overflow-y-auto'>
                             <>
                                 <button
                                     className='text-sm absolute right-1 top-1 border border-black px-1 hover:bg-gray-400/50'
