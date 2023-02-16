@@ -20,6 +20,17 @@ const SearchBar = () => {
     let adultLength = rooms.reduce((accum, room) => accum + room.adults, 0);
     let childrenLength = rooms.reduce((accum, room) => accum + room.children.length, 0);
 
+    const queriesShow = () => {
+        let queryDivs = document.querySelectorAll('.queries');
+        queryDivs.forEach(e => e.addEventListener('click', () => {
+            const previousSelects = document.querySelectorAll('.active-query');
+            if (previousSelects.length > 0) {
+                previousSelects[0].classList.remove('active-query');
+            }
+            e.classList.add('active-query');
+        }));
+    }
+
     const fetchLocations = async () => {
         const results = await fetch(`https://hotels4.p.rapidapi.com/locations/v3/search?q=${term}`, {
             method: 'GET',
