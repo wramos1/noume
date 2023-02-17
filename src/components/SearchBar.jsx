@@ -15,7 +15,7 @@ const SearchBar = () => {
     const { checkIn, setCheckIn } = useContext(QueriesContext);
     const { checkOut, setCheckOut } = useContext(QueriesContext);
     const { rooms, setRooms } = useContext(QueriesContext);
-    const { setNoumes } = useContext(QueriesContext)
+    const { setNoumes } = useContext(QueriesContext);
 
     let adultLength = rooms.reduce((accum, room) => accum + room.adults, 0);
     let childrenLength = rooms.reduce((accum, room) => accum + room.children.length, 0);
@@ -23,11 +23,14 @@ const SearchBar = () => {
     const queriesShow = () => {
         let queryDivs = document.querySelectorAll('.queries');
         queryDivs.forEach(e => e.addEventListener('click', () => {
-            const previousSelects = document.querySelectorAll('.active-query');
+            const previousSelects = document.querySelectorAll('.active');
             if (previousSelects.length > 0) {
-                previousSelects[0].classList.remove('active-query');
+                previousSelects[0].classList.add('hidden');
+                previousSelects[0].classList.remove('active');
             }
-            e.classList.add('active-query');
+            e.nextElementSibling.classList.toggle('hidden');
+            e.nextElementSibling.classList.add('active');
+            console.log(previousSelects)
         }));
     }
 
@@ -55,6 +58,7 @@ const SearchBar = () => {
     }
 
     useEffect(() => {
+        queriesShow();
         if (term && !predictedLocations.length) {
             fetchLocations();
         } else {
@@ -316,7 +320,7 @@ const SearchBar = () => {
                             className="min-w-[250px] outline-none text-lg placeholder:text-sm cursor-pointer"
                         />
                         <div className='absolute mt-12 -left-[41px] max-h-[150px] overflow-y-auto' >
-                            <ul className='queries locations hidden'>
+                            <ul className='locations hidden'>
                                 {predictedLocations.length ?
                                     predictedLocations.map((location) => {
                                         return (
@@ -341,8 +345,9 @@ const SearchBar = () => {
                         <label className='cursor-pointer text-xs' htmlFor="checkInBtn">Check In</label>
                         <button
                             id='checkInBtn'
-                            className='text-md'
-                            onClick={() => {
+                            className='text-md queries'
+                            onClick={(e) => {
+                                console.log(e.currentTarget.nextSibling)
                                 document.querySelector('.checkIn').classList.toggle('hidden');
                                 document.querySelector('.checkIn').scrollIntoView({ behavior: 'smooth', block: 'center' });
                             }}
@@ -351,7 +356,7 @@ const SearchBar = () => {
                         </button>
 
                         <Calendar
-                            className={'queries hidden checkIn transition-all absolute -left-[45px]'}
+                            className={'hidden checkIn transition-all absolute -left-[45px]'}
                             onChange={(e) => setCheckInDate(e)}
                             minDate={new Date()}
                         />
@@ -364,7 +369,7 @@ const SearchBar = () => {
                         <label className='cursor-pointer text-xs' htmlFor="checkOutBtn">Check Out</label>
                         <button
                             id='checkOutBtn'
-                            className='text-md'
+                            className='text-md queries'
                             onClick={() => {
                                 document.querySelector('.checkOut').classList.toggle('hidden');
                                 document.querySelector('.checkOut').scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -374,7 +379,7 @@ const SearchBar = () => {
                         </button>
 
                         <Calendar
-                            className={'queries hidden checkOut transition-all absolute -left-[45px]'}
+                            className={'hidden checkOut transition-all absolute -left-[45px]'}
                             onChange={(e) => setCheckOutDate(e)}
                             minDate={setMinCheckOutDate()}
                         />
@@ -388,6 +393,7 @@ const SearchBar = () => {
 
                         <button
                             id='people'
+                            className='queries'
                             onClick={() => {
                                 document.querySelector('#peopleList').classList.toggle('hidden');
                                 document.querySelector('#peopleList').scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -396,7 +402,7 @@ const SearchBar = () => {
                             {adultLength} Adults, {childrenLength} Children
                         </button>
 
-                        <div id='peopleList' className='queries hidden absolute mt-12 border border-black min-w-[300px] -left-[85px] bg-white max-h-[250px] overflow-y-auto'>
+                        <div id='peopleList' className='hidden absolute mt-12 border border-black min-w-[300px] -left-[85px] bg-white max-h-[250px] overflow-y-auto'>
                             <>
                                 <button
                                     className='text-sm absolute right-1 top-1 border border-black px-1 hover:bg-gray-400/50'
