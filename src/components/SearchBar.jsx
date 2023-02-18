@@ -20,19 +20,24 @@ const SearchBar = () => {
     let adultLength = rooms.reduce((accum, room) => accum + room.adults, 0);
     let childrenLength = rooms.reduce((accum, room) => accum + room.children.length, 0);
 
-    const queriesShow = () => {
-        let queryDivs = document.querySelectorAll('.queries');
-        queryDivs.forEach(e => e.addEventListener('click', () => {
-            const previousSelects = document.querySelectorAll('.active');
-            if (previousSelects.length > 0) {
+    const queriesShow = (e) => {
+        const previousSelects = document.querySelectorAll('.active');
+        const targetElement = e.currentTarget.nextElementSibling;
+        if (previousSelects.length > 0) {
+            if (targetElement.classList === previousSelects[0].classList) {
+                targetElement.classList.toggle("hidden");
+            } else {
                 previousSelects[0].classList.add('hidden');
                 previousSelects[0].classList.remove('active');
+                targetElement.classList.toggle("hidden");
+                targetElement.classList.add("active");
             }
-            e.nextElementSibling.classList.toggle('hidden');
-            e.nextElementSibling.classList.add('active');
-            console.log(previousSelects)
-        }));
-    }
+        }
+        else {
+            targetElement.classList.toggle("hidden");
+            targetElement.classList.add("active");
+        }
+    };
 
     const fetchLocations = async () => {
         const results = await fetch(`https://hotels4.p.rapidapi.com/locations/v3/search?q=${term}`, {
@@ -58,7 +63,6 @@ const SearchBar = () => {
     }
 
     useEffect(() => {
-        queriesShow();
         if (term && !predictedLocations.length) {
             fetchLocations();
         } else {
@@ -347,8 +351,7 @@ const SearchBar = () => {
                             id='checkInBtn'
                             className='text-md queries'
                             onClick={(e) => {
-                                console.log(e.currentTarget.nextSibling)
-                                document.querySelector('.checkIn').classList.toggle('hidden');
+                                queriesShow(e);
                                 document.querySelector('.checkIn').scrollIntoView({ behavior: 'smooth', block: 'center' });
                             }}
                         >
@@ -370,8 +373,8 @@ const SearchBar = () => {
                         <button
                             id='checkOutBtn'
                             className='text-md queries'
-                            onClick={() => {
-                                document.querySelector('.checkOut').classList.toggle('hidden');
+                            onClick={(e) => {
+                                queriesShow(e);
                                 document.querySelector('.checkOut').scrollIntoView({ behavior: 'smooth', block: 'center' });
                             }}
                         >
@@ -394,8 +397,8 @@ const SearchBar = () => {
                         <button
                             id='people'
                             className='queries'
-                            onClick={() => {
-                                document.querySelector('#peopleList').classList.toggle('hidden');
+                            onClick={(e) => {
+                                queriesShow(e);
                                 document.querySelector('#peopleList').scrollIntoView({ behavior: 'smooth', block: 'center' });
                             }}
                         >
