@@ -9,7 +9,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 const SearchBar = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const [term, setTerm] = useState('');
+    const { term, setTerm } = useContext(QueriesContext);
     const [predictedLocations, setPredictedLocations] = useState([]);
     const { selectedLocation, setSelectedLocation } = useContext(QueriesContext);
     const { checkIn, setCheckIn } = useContext(QueriesContext);
@@ -50,6 +50,7 @@ const SearchBar = () => {
             .then((res) => res.json())
             .then((data) => setPredictedLocations(data.sr))
             .catch((err) => console.error(err))
+        document.querySelector('.locations').scrollIntoView({ behavior: 'smooth', block: 'center' });
     };
 
     const setLocation = ({ name, coordinates, index }) => {
@@ -270,10 +271,13 @@ const SearchBar = () => {
         setRooms(copyState);
     };
 
-    const printParams = () => {
+    const printParams = async () => {
         let fetchParams = {
             destination: {
-                coordinates: selectedLocation.coordinates
+                coordinates: {
+                    latitude: parseFloat(selectedLocation.coordinates.lat),
+                    longitude: parseFloat(selectedLocation.coordinates.long)
+                }
             },
             checkInDate: {
                 day: checkIn.day,
@@ -295,14 +299,24 @@ const SearchBar = () => {
                     min: 100
                 }
             }
-        }
+        };
 
         if (location.pathname !== '/find-hotels') {
             navigate('/find-hotels');
         }
 
-        setNoumes(JSON.stringify(fetchParams))
-        //Setting Noumes from Data received in API call
+        const results = await fetch('https://hotels4.p.rapidapi.com/properties/v2/list', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-RapidAPI-Key': 'ae9171a8fbmsh26e3b73616d4dc1p1e51f1jsnd4121cd446e0',
+                'X-RapidAPI-Host': 'hotels4.p.rapidapi.com'
+            },
+            body: `${JSON.stringify(fetchParams)}`
+        })
+
+        const data = await results.json();
+        setNoumes(data.data.propertySearch.properties)
     }
 
     return (
@@ -329,7 +343,7 @@ const SearchBar = () => {
                                     predictedLocations.map((location) => {
                                         return (
                                             <li
-                                                className='p-1 border min-w-[450px] border-black cursor-pointer hover:text-black hover:bg-slate-400/50'
+                                                className='p-1 border min-w-[400px] bg-white border-black cursor-pointer hover:text-black hover:primary-bg-color'
                                                 key={location.essId.sourceId}
                                                 onClick={(e) => setLocation({ name: location.regionNames.primaryDisplayName, index: location.index, coordinates: { lat: location.coordinates.lat, long: location.coordinates.long } })}
                                             >

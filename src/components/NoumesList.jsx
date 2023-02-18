@@ -8,4 +8,12 @@ const NoumesList = ({ noumes }) => {
     )
 }
 
+/*
+image: propertyImage.image.url
+name: name  
+availableSigns: availablity.available===boolean && availability.minRoomsLeft===number
+price: price.lead.formatted
+
+*/
+
 export default NoumesList

@@ -21,11 +21,12 @@ export function WrappedApp() {
   const [checkIn, setCheckIn] = useState({ day: null, month: null, year: null, strDate: '' });
   const [checkOut, setCheckOut] = useState({ day: null, month: null, year: null, strDate: '' });
   const [rooms, setRooms] = useState([{ adults: 2, children: [{ age: 0 }] }]);
-  const [noumes, setNoumes] = useState('');
+  const [noumes, setNoumes] = useState([]);
+  const [term, setTerm] = useState('');
 
   return (
     <HashRouter>
-      <QueriesContext.Provider value={{ rooms, setRooms, selectedLocation, setSelectedLocation, checkIn, setCheckIn, checkOut, setCheckOut, noumes, setNoumes }}>
+      <QueriesContext.Provider value={{ rooms, setRooms, selectedLocation, setSelectedLocation, checkIn, setCheckIn, checkOut, setCheckOut, noumes, setNoumes, term, setTerm }}>
         <App />
       </QueriesContext.Provider>
       <Footer />

@@ -13,10 +13,9 @@ const FindNoumes = () => {
             <div className='pt-20'>
                 <SearchBar
                 />
-                {noumes}
             </div>
             {noumes.length > 0 &&
-                <NoumesList />
+                <NoumesList noumes={noumes} />
             }
         </div>
     )
