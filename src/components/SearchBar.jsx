@@ -316,6 +316,7 @@ const SearchBar = () => {
         })
 
         const data = await results.json();
+        console.log(data.data)
         setNoumes(data.data.propertySearch.properties)
     }
 

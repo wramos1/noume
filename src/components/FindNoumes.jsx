@@ -6,6 +6,7 @@ import SearchBar from './SearchBar'
 
 const FindNoumes = () => {
     const { noumes } = useContext(QueriesContext);
+    const { selectedLocation } = useContext(QueriesContext)
 
     return (
         <div className='h-screen'>
@@ -14,9 +15,14 @@ const FindNoumes = () => {
                 <SearchBar
                 />
             </div>
+
             {noumes.length > 0 &&
-                <NoumesList noumes={noumes} />
+                <div>
+                    <p>{`Search Results For ${selectedLocation.name}'`}</p>
+                    <NoumesList noumes={noumes} />
+                </div>
             }
+
         </div>
     )
 }
