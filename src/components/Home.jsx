@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { popularStays } from '../data/popularStays';
 import Yoga from '../images/yoga.png';
 import House from '../images/home.png';
 import CheckList from '../images/checks.png';
 import SearchBar from './SearchBar';
 import Navbar from './Navbar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart as BasicHeart } from '@fortawesome/free-regular-svg-icons';
+import { faHeart as SolidHeart } from '@fortawesome/free-solid-svg-icons';
 
 const Home = () => {
+    const [clicked, setClicked] = useState(false);
     const simulateNewsletterSubscription = (e) => {
         e.preventDefault();
         alert('You have subscribed!');
@@ -18,7 +22,8 @@ const Home = () => {
             <Navbar bg={'transparent'} paddingSize={'p-9'} />
             {/* Hero Section */}
             <div className='hero w-full min-h-[95vh] relative'>
-                <h1 className='text-[56px] absolute left-[8.26%] right-[78.54%] top-[19.42%] bottom-[71.17%] min-w-[500px] lg:top-[18%]'>
+                <h1 className='text-[56px] absolute left-[8.26%] right-[78.54%] top-[19.42%] bottom-[71.17%] min-w-[500px] lg:top-[18%]' onClick={() => setClicked(prevValue => !prevValue)}>
+                    {clicked ? <FontAwesomeIcon icon={SolidHeart} style={{ color: 'red' }} /> : <FontAwesomeIcon icon={BasicHeart} style={{ color: 'red' }} />}
                     Find a
                 </h1>
 
