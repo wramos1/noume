@@ -1,4 +1,5 @@
 import React from 'react'
+import NoumePreview from './NoumePreview'
 
 const NoumesList = ({ noumes }) => {
     console.log(noumes)
@@ -6,13 +7,10 @@ const NoumesList = ({ noumes }) => {
         <div>
             {noumes.map((noume) => {
                 return (
-                    <div key={noume.id}>
-                        {noume.name}
-                        {noume.price.lead.formatted}
-                        <img src={noume.propertyImage.image.url} alt="" />
-                        {noume.availability.available}
-                        {noume.availability.minRoomsLeft}
-                    </div>
+                    <NoumePreview
+                        key={noume.id}
+                        noume={noume}
+                    />
                 )
             })}
         </div>
