@@ -1,10 +1,11 @@
 import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 const Navbar = (props) => {
     const location = useLocation();
+    const navigate = useNavigate()
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
@@ -28,8 +29,37 @@ const Navbar = (props) => {
         }
 
     }, [scrolled]);
+
+    function waitForElm(selector) {
+        return new Promise(resolve => {
+            if (document.querySelector(selector)) {
+                return resolve(document.querySelector(selector));
+            }
+
+            const observer = new MutationObserver(mutations => {
+                if (document.querySelector(selector)) {
+                    resolve(document.querySelector(selector));
+                    observer.disconnect();
+                }
+            });
+
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        });
+    }
+
+    const navigateToNewsletter = async () => {
+        if (location.pathname !== '/') {
+            navigate('/');
+            const elm = await waitForElm('#newsletter');
+            document.querySelector('#newsletter').scrollIntoView({ behavior: 'smooth' });
+        };
+        document.querySelector('#newsletter').scrollIntoView({ behavior: 'smooth' });
+    }
     return (
-        <nav className={`nav flex justify-around items-center absolute z-20 w-full transition-all ${props.bg} ${props.paddingSize}`}>
+        <nav className={`nav flex justify-around items-center absolute z-20 w-full transition-all ${props.classProps}`}>
             <div className='w-1/2'>
                 <h1 className='text-3xl secondary-txt-color'>
                     <Link to={'/'}>
@@ -43,7 +73,7 @@ const Navbar = (props) => {
                     <li
                         className='hover:text-slate-500 cursor-pointer'
                         onClick={() => {
-                            document.querySelector('#newsletter').scrollIntoView({ behavior: 'smooth' })
+                            navigateToNewsletter();
                         }}
                     >
                         Newsletter
@@ -52,7 +82,7 @@ const Navbar = (props) => {
                     <li
                         className='hover:text-slate-500 cursor-pointer'
                         onClick={() => {
-                            document.querySelector('#footer').scrollIntoView({ behavior: 'smooth' })
+                            navigateToNewsletter();
                         }}
                     >
                         Support
