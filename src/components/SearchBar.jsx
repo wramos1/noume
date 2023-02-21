@@ -272,6 +272,10 @@ const SearchBar = () => {
     };
 
     const printParams = async () => {
+        if (term.trim() === '') {
+            alert('Location is needed to find Noumes');
+            return;
+        }
         let fetchParams = {
             destination: {
                 coordinates: {
@@ -316,7 +320,6 @@ const SearchBar = () => {
         })
 
         const data = await results.json();
-        console.log(data.data)
         setNoumes(data.data.propertySearch.properties)
     }
 
