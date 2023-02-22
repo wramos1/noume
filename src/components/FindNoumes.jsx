@@ -9,7 +9,7 @@ const FindNoumes = () => {
     const { selectedLocation } = useContext(QueriesContext)
 
     return (
-        <div className='h-screen'>
+        <div>
             <Navbar classProps={'bg-slate-800/80 text-white p-5'} />
             <div className='pt-20'>
                 <SearchBar

@@ -4,6 +4,7 @@ import FindNoumes from './components/FindNoumes'
 import Footer from './components/Footer'
 import Home from './components/Home'
 import NotFound from './components/NotFound'
+import Noume from './components/Noume'
 import { QueriesContext } from './data/QueriesContext'
 
 export function App() {
@@ -12,6 +13,7 @@ export function App() {
       <Route path='/' element={<Home />} />
       <Route path='*' element={<NotFound />} />
       <Route path='/find-hotels' element={<FindNoumes />} />
+      <Route path='/noumes/:id' element={<Noume />} />
     </Routes>
   )
 };
@@ -23,10 +25,11 @@ export function WrappedApp() {
   const [rooms, setRooms] = useState([{ adults: 2, children: [{ age: 0 }] }]);
   const [noumes, setNoumes] = useState([]);
   const [term, setTerm] = useState('');
+  const [noume, setNoume] = useState(null);
 
   return (
     <HashRouter>
-      <QueriesContext.Provider value={{ rooms, setRooms, selectedLocation, setSelectedLocation, checkIn, setCheckIn, checkOut, setCheckOut, noumes, setNoumes, term, setTerm }}>
+      <QueriesContext.Provider value={{ rooms, setRooms, selectedLocation, setSelectedLocation, checkIn, setCheckIn, checkOut, setCheckOut, noumes, setNoumes, term, setTerm, noume, setNoume }}>
         <App />
       </QueriesContext.Provider>
       <Footer />

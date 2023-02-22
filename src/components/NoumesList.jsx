@@ -2,9 +2,10 @@ import React from 'react'
 import NoumePreview from './NoumePreview'
 
 const NoumesList = ({ noumes }) => {
-    console.log(noumes)
     return (
-        <div>
+        <div
+            className='flex flex-col gap-5 px-5'
+        >
             {noumes.map((noume) => {
                 return (
                     <NoumePreview
