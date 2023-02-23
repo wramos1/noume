@@ -1,54 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as BasicHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as SolidHeart } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import { QueriesContext } from '../data/QueriesContext';
 
 const NoumePreview = ({ noume }) => {
+
     const [clicked, setClicked] = useState(false);
+    const { selectedLocation } = useContext(QueriesContext);
+
     return (
         <Link
             to={`/noumes/${noume.id}`}
-            className='w-full flex'
+            className='w-full flex max-h-[220px] border-2 border-[#0000007b] my-5 z-10 hover:border-[#AA9BE6] transition-all'
         >
             <div
-                className='w-1/3 relative'
+                className='w-[20%] relative z-30'
             >
                 <div
-                    className='absolute right-0 top-0'
+                    className='absolute right-6 top-5 text-2xl z-50'
                     onClick={() => setClicked(!clicked)}
                 >
                     {clicked ? <FontAwesomeIcon icon={SolidHeart} style={{ color: 'red' }} /> : <FontAwesomeIcon icon={BasicHeart} style={{ color: 'red' }} />}
                 </div>
-                <img
-                    src={noume.propertyImage.image.url}
-                    alt={noume.name}
-                />
+                <div className='w-full p-3 h-full'>
+                    <img
+                        className='border-[3px] border-[#0000007b] h-full w-full'
+                        src={noume.propertyImage.image.url}
+                        alt={noume.name}
+                    />
+                </div>
             </div>
 
             <div
-                className='w-2/3 flex justify-between'
+                className='w-[80%] flex justify-between'
             >
                 <div className='flex flex-col justify-around'>
-                    <h1>
-                        {noume.name} <span className={"rounded p-1" + noume.availability.available ? 'bg-green-500' : 'bg-red-500'}>{noume.availability.available ? 'Available' : 'Unavailable'}</span>
-                    </h1>
-                    {/* <h3>{noume.neighborhood.name} - {noume.destinationInfo.distanceFromDestination.value}</h3>  NEEDS CONDITIONAL, SOME DO NOT HAVE NEIGHBORHOOD NAME, MILES DISTANCES ALWAYS*/}
-                    <p>{noume.reviews.score}/10 ({noume.reviews.total} Reviews)</p>
-                    <button className='primary-btn'>View Property</button>
-                </div>
-                <div className='flex flex-col justify-between h-full'>
                     <div>
-                        <h1>
+                        <h1 className='text-xl font-black noume-availability mt-0'>
+                            {noume.name} <span className={noume.availability.available === true ? 'bg-green-700' : 'bg-red-700'}>{noume.availability.available === true ? 'Available' : 'Unavailable'}</span>
+                        </h1>
+                        <span className='text-sm text-[#0000009f]'>{noume.destinationInfo.distanceFromDestination.value} Miles from {selectedLocation.name} </span>
+                        <p className='text-md text-[#AA9BE6] py-1'>
+                            {noume.reviews.score}/10 ({noume.reviews.total} Reviews)
+                        </p>
+                    </div>
+                    <button className='primary-btn w-[120px] rounded-none'>View Property</button>
+                </div>
+
+                <div className='flex flex-col justify-between h-full p-2'>
+                    <div className='flex justify-center items-center flex-col'>
+                        <h1 className='text-[#3FA600] text-lg'>
                             {noume.price.lead.formatted}
                         </h1>
-                        <p>Per Night(Avg.)</p>
+                        <p className='text-[#0000007b] text-sm'>Per Night(Avg.)</p>
                     </div>
-                    <div>
-                        <h1>
-                            {noume.availability.minRoomsLeft}
+                    <div className='flex justify-center items-center flex-col'>
+                        <h1 className='text-lg'>
+                            {noume.availability.minRoomsLeft > 0 ? noume.availability.minRoomsLeft : 0}
                         </h1>
-                        <p>Open Rooms</p>
+                        <p className='text-[#0000007b] text-sm'>Open Rooms</p>
                     </div>
                 </div>
             </div>

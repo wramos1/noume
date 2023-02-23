@@ -53,6 +53,48 @@ html, body {
 	display: flex;
 }
 
+.spinner {
+    height: 100vh;
+    opacity: 1;
+    position: relative;
+    transition: opacity linear 0.1s;
+}
+
+.spinner::before {
+    animation: 2s linear infinite spinner;
+    border: solid 3px #eee;
+    border-bottom-color: #AA9BE6;
+    border-radius: 50%;
+    content: "";
+    height: 40px;
+    left: 50%;
+    opacity: inherit;
+    position: absolute;
+    top: 35%;
+    transform: translate3d(-50%, -50%, 0);
+    transform-origin: center;
+    width: 40px;
+    will-change: transform;
+}
+
+.noume-availability span{
+	border-radius: 5px;
+	font-size: 12px;
+	padding: 5px;
+	color: white;
+}
+
+
+@keyframes spinner {
+    0% {
+        transform: translate3d(-50%, -50%, 0) rotate(0deg);
+    }
+
+    100% {
+        transform: translate3d(-50%, -50%, 0) rotate(360deg);
+    }
+}
+
 
 @layer components {
 	.primary-btn {

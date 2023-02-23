@@ -6,7 +6,7 @@ import SearchBar from './SearchBar'
 
 const FindNoumes = () => {
     const { noumes } = useContext(QueriesContext);
-    const { selectedLocation } = useContext(QueriesContext)
+    const { selectedLocation } = useContext(QueriesContext);
 
     return (
         <div>
@@ -18,7 +18,7 @@ const FindNoumes = () => {
 
             {noumes.length > 0 &&
                 <div>
-                    <p>{`Search Results For ${selectedLocation.name}'`}</p>
+                    <p className='pl-2 py-4'>{`Search Results For '${selectedLocation.name}'`}</p>
                     <NoumesList noumes={noumes} />
                 </div>
             }
