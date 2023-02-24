@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import Calendar from 'react-calendar';
 import Ping from '../images/ping.png';
 import CalendarIcon from '../images/calendar.png';
@@ -16,6 +16,7 @@ const SearchBar = () => {
     const { checkOut, setCheckOut } = useContext(QueriesContext);
     const { rooms, setRooms } = useContext(QueriesContext);
     const { setNoumes } = useContext(QueriesContext);
+    const { setLoading } = useContext(QueriesContext)
 
     let adultLength = rooms.reduce((accum, room) => accum + room.adults, 0);
     let childrenLength = rooms.reduce((accum, room) => accum + room.children.length, 0);
@@ -62,6 +63,11 @@ const SearchBar = () => {
     const toggleLocations = () => {
         document.querySelector('.locations').classList.remove('hidden');
     }
+
+    useEffect(() => {
+        setCheckInDate(new Date());
+        setCheckOutDate(new Date(new Date().setDate(new Date().getDate() + 1)))
+    }, [])
 
     useEffect(() => {
         if (term && !predictedLocations.length) {
@@ -276,6 +282,8 @@ const SearchBar = () => {
             alert('Location is needed to find Noumes');
             return;
         }
+        setLoading(true);
+
         let fetchParams = {
             destination: {
                 coordinates: {
@@ -320,7 +328,8 @@ const SearchBar = () => {
         })
 
         const data = await results.json();
-        setNoumes(data.data.propertySearch.properties)
+        setNoumes(data.data.propertySearch.properties);
+        setLoading(false);
     }
 
     return (
@@ -328,7 +337,7 @@ const SearchBar = () => {
             <div className='flex justify-around items-center'>
                 <div className='flex items-center justify-between gap-3 px-2 transition-all bg-white border-2 hover:border-black focus:border-black'>
                     <div>
-                        <img src={Ping} alt="" className='w-[20px]' />
+                        <img src={Ping} alt="Location Icon" className='w-[20px]' />
                     </div>
                     <div className='relative flex flex-col'>
                         <label htmlFor="location" className='text-xs'>Location</label>

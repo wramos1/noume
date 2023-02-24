@@ -5,22 +5,20 @@ import NoumesList from './NoumesList';
 import SearchBar from './SearchBar'
 
 const FindNoumes = () => {
-    const { noumes } = useContext(QueriesContext);
-    const { selectedLocation } = useContext(QueriesContext);
+    const { noumes, loading } = useContext(QueriesContext);
 
     return (
-        <div>
+        <div className='min-h-[100vh]'>
             <Navbar classProps={'bg-slate-800/80 text-white p-5'} />
             <div className='pt-20'>
                 <SearchBar
                 />
             </div>
 
-            {noumes.length > 0 &&
-                <div>
-                    <p className='pl-2 py-4'>{`Search Results For '${selectedLocation.name}'`}</p>
+            {
+                loading ?
+                    <div className="spinner"></div> :
                     <NoumesList noumes={noumes} />
-                </div>
             }
 
         </div>

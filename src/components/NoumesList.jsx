@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { QueriesContext } from '../data/QueriesContext'
 import NoumePreview from './NoumePreview'
 
 const NoumesList = ({ noumes }) => {
+    const { selectedLocation, loading } = useContext(QueriesContext);
 
     const mapNoumes = noumes.map((noume) => {
         return (
@@ -12,25 +14,17 @@ const NoumesList = ({ noumes }) => {
         )
     })
 
-    const renderNoumePreviews = () => {
-        if (noumes.length === 0 || !noumes) {
-            console.log('loading spinner');
-            return <div className='spinner'></div>;
-        }
+    {
         return (
-            <div>
-                {mapNoumes}
-            </div>
+            !noumes.length > 0 ?
+                null
+                :
+                <div className='flex flex-col px-8'>
+                    <p className='pl-2 py-4'>{`Search Results For '${selectedLocation.name}'`}</p>
+                    {mapNoumes}
+                </div>
         )
     }
-
-    return (
-        <div
-            className='flex flex-col gap-5 px-8'
-        >
-            {renderNoumePreviews()}
-        </div>
-    )
 }
 
 export default NoumesList

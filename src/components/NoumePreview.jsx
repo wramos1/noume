@@ -13,7 +13,7 @@ const NoumePreview = ({ noume }) => {
     return (
         <Link
             to={`/noumes/${noume.id}`}
-            className='w-full flex max-h-[220px] border-2 border-[#0000007b] my-5 z-10 hover:border-[#AA9BE6] transition-all'
+            className='w-full flex h-[220px] border-2 my-5 z-10 border-[#0000007b] transition-all'
         >
             <div
                 className='w-[20%] relative z-30'
@@ -26,7 +26,7 @@ const NoumePreview = ({ noume }) => {
                 </div>
                 <div className='w-full p-3 h-full'>
                     <img
-                        className='border-[3px] border-[#0000007b] h-full w-full'
+                        className='border-[3px] border-[#AA9BE6] h-full w-full'
                         src={noume.propertyImage.image.url}
                         alt={noume.name}
                     />
