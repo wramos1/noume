@@ -25,7 +25,6 @@ export function WrappedApp() {
   const [rooms, setRooms] = useState([{ adults: 2, children: [{ age: 0 }] }]);
   const [noumes, setNoumes] = useState([]);
   const [term, setTerm] = useState('');
-  const [noume, setNoume] = useState(null);
   const [loading, setLoading] = useState(false);
 
   return (
