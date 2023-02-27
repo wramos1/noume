@@ -84,6 +84,21 @@ html, body {
 	color: white;
 }
 
+.noume-title:before{
+	background-color: #AA9BE6;
+	content: "";
+	display: inline-block;
+	height: 1.5px;
+	vertical-align: middle;
+	margin: 0 5px;
+	width: 100%;
+}
+
+#price {
+	width: 250px;
+}
+
+
 
 @keyframes spinner {
     0% {

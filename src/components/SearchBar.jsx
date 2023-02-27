@@ -5,6 +5,7 @@ import CalendarIcon from '../images/calendar.png';
 import Person from '../images/person.png';
 import { QueriesContext } from '../data/QueriesContext';
 import { useLocation, useNavigate } from 'react-router-dom';
+import '../priceSlider.scss'
 
 const SearchBar = () => {
     const location = useLocation();
@@ -16,7 +17,8 @@ const SearchBar = () => {
     const { checkOut, setCheckOut } = useContext(QueriesContext);
     const { rooms, setRooms } = useContext(QueriesContext);
     const { setNoumes } = useContext(QueriesContext);
-    const { setLoading } = useContext(QueriesContext)
+    const { setLoading } = useContext(QueriesContext);
+    const { price, setPrice } = useContext(QueriesContext);
 
     let adultLength = rooms.reduce((accum, room) => accum + room.adults, 0);
     let childrenLength = rooms.reduce((accum, room) => accum + room.children.length, 0);
@@ -465,6 +467,14 @@ const SearchBar = () => {
                 </div>
 
             </div>
+
+            <div className='w-full flex justify-center'>
+                <div className="length range__slider" data-min="0" data-max="600">
+                    <div className="length__title field-title" data-length='0'>length:</div>
+                    <input id="slider" type="range" min="0" max="600" value={price} onChange={(e) => setPrice(e.target.value)} />
+                </div>
+            </div>
+
 
             <div className='w-full flex justify-center items-center pt-3'>
                 <button
