@@ -98,6 +98,27 @@ html, body {
 	width: 250px;
 }
 
+.container input[type="number"]::webkit-outer-spin-button,
+.container input[type="number"]::webkit-inner-spin-button {
+	-webkit-appearance: none;
+}
+
+.container .range-slider input[type="range"] {
+	-webkit-appearance: none;
+	pointer-events: none;
+	background: none;
+}
+
+.container .range-slider input::-webkit-slider-thumb {
+	pointer-events: auto;
+	-webkit-appearance: none;
+	width: 17px;
+	height: 17px;
+	background: #AA9BE6;
+	border-radius: 50%;
+}
+
+
 
 
 @keyframes spinner {

@@ -18,7 +18,7 @@ const SearchBar = () => {
     const { rooms, setRooms } = useContext(QueriesContext);
     const { setNoumes } = useContext(QueriesContext);
     const { setLoading } = useContext(QueriesContext);
-    const { price, setPrice } = useContext(QueriesContext);
+    const { minPrice, setMinPrice, maxPrice, setMaxPrice } = useContext(QueriesContext);
 
     let adultLength = rooms.reduce((accum, room) => accum + room.adults, 0);
     let childrenLength = rooms.reduce((accum, room) => accum + room.children.length, 0);
@@ -279,8 +279,49 @@ const SearchBar = () => {
         setRooms(copyState);
     };
 
+    const onMinRangeChange = (e) => {
+        const range = document.querySelectorAll('.range-slider input')
+        const progress = document.querySelector('.range-slider .progress')
+        let maxRange = parseInt(maxPrice);
+        let gap = 50;
+
+        if (maxRange - e.target.value < gap) {
+            if (e.target.classList[0] === 'range-min') {
+                return;
+            }
+            else {
+                setMaxPrice(e.target.value + gap);
+            }
+        }
+        else {
+            progress.style.left = (e.target.value / range[0].max) * 100 + '%';
+            setMinPrice(e.target.value);
+        }
+    }
+
+    const onMaxRangeChange = (e) => {
+        const range = document.querySelectorAll('.range-slider input')
+        const progress = document.querySelector('.range-slider .progress')
+        let minRange = parseInt(minPrice);
+        let gap = 50;
+
+        if (e.target.value - minRange < gap) {
+            if (e.target.classList[0] === 'range-min') {
+                setMinPrice(e.target.value - gap);
+            }
+            else {
+                return;
+            }
+        }
+        else {
+            progress.style.right = 100 - (e.target.value / range[1].max) * 100 + '%';
+            setMaxPrice(e.target.value);
+        }
+    }
+
     const printParams = async () => {
         if (term.trim() === '') {
+            console.log(minPrice, maxPrice)
             alert('Location is needed to find Noumes');
             return;
         }
@@ -468,10 +509,19 @@ const SearchBar = () => {
 
             </div>
 
-            <div className='w-full flex justify-center'>
-                <div className="length range__slider" data-min="0" data-max="600">
-                    <div className="length__title field-title" data-length='0'>length:</div>
-                    <input id="slider" type="range" min="0" max="600" value={price} onChange={(e) => setPrice(e.target.value)} />
+            <div className='container flex justify-center items-center w-full my-2 px-[20%]'>
+                <div className='min-value numberVal'>
+                    <input className='w-[50px] h-[30px] bg-white border text-[15px] text-center' type="number" value={minPrice} min={0} max={600} disabled />
+                </div>
+
+                <div className='range-slider relative w-full h-[5px] bg-white outline-none m-[10px] rounded-[50px]'>
+                    <div className='progress absolute left-[0%] right-[75%] h-full primary-bg-color rounded-[50px]'></div>
+                    <input className='range-min absolute -top-[7px] -left-[5px] w-[101%] outline-none cursor-pointer' type="range" min={0} max={600} value={minPrice} onInput={(e) => onMinRangeChange(e)} />
+                    <input className='range-max absolute -top-[7px] -left-[5px] w-[101%] outline-none cursor-pointer' type="range" min={0} max={600} value={maxPrice} onInput={(e) => onMaxRangeChange(e)} />
+                </div>
+
+                <div className='max-value numberVal'>
+                    <input className='w-[50px] h-[30px] bg-white border text-[15px] text-center' type="number" value={maxPrice} min={0} max={600} disabled />
                 </div>
             </div>
 

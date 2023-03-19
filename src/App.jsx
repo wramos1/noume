@@ -26,11 +26,12 @@ export function WrappedApp() {
   const [noumes, setNoumes] = useState([]);
   const [term, setTerm] = useState('');
   const [loading, setLoading] = useState(false);
-  const [price, setPrice] = useState(100)
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(150);
 
   return (
     <HashRouter>
-      <QueriesContext.Provider value={{ rooms, setRooms, selectedLocation, setSelectedLocation, checkIn, setCheckIn, checkOut, setCheckOut, noumes, setNoumes, term, setTerm, loading, setLoading, price, setPrice }}>
+      <QueriesContext.Provider value={{ rooms, setRooms, selectedLocation, setSelectedLocation, checkIn, setCheckIn, checkOut, setCheckOut, noumes, setNoumes, term, setTerm, loading, setLoading, minPrice, setMinPrice, maxPrice, setMaxPrice }}>
         <App />
       </QueriesContext.Provider>
       <Footer />
