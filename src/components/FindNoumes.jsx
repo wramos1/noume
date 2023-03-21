@@ -9,8 +9,8 @@ const FindNoumes = () => {
 
     return (
         <div className='min-h-[100vh]'>
-            <Navbar classProps={'bg-slate-800/80 text-white p-5'} />
-            <div className='pt-20'>
+            <Navbar classProps={'bg-[#7468AD] text-white p-5'} />
+            <div className='pt-24'>
                 <SearchBar
                 />
             </div>

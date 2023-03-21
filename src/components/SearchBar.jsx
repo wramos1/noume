@@ -5,7 +5,6 @@ import CalendarIcon from '../images/calendar.png';
 import Person from '../images/person.png';
 import { QueriesContext } from '../data/QueriesContext';
 import { useLocation, useNavigate } from 'react-router-dom';
-import '../priceSlider.scss'
 
 const SearchBar = () => {
     const location = useLocation();
@@ -82,7 +81,7 @@ const SearchBar = () => {
                 if (term) {
                     fetchLocations();
                 }
-            }, 1000)
+            }, 800)
 
             return () => {
                 clearTimeout(timeoutId);
@@ -321,7 +320,6 @@ const SearchBar = () => {
 
     const printParams = async () => {
         if (term.trim() === '') {
-            console.log(minPrice, maxPrice)
             alert('Location is needed to find Noumes');
             return;
         }
@@ -350,8 +348,8 @@ const SearchBar = () => {
             sort: "PRICE_LOW_TO_HIGH",
             filters: {
                 price: {
-                    max: 150,
-                    min: 100
+                    max: parseInt(maxPrice),
+                    min: parseInt(minPrice) + 1
                 }
             }
         };
@@ -377,7 +375,7 @@ const SearchBar = () => {
 
     return (
         <div>
-            <div className='flex justify-around items-center'>
+            <div className='flex justify-around items-center mobile:flex-col mobile:gap-2'>
                 <div className='flex items-center justify-between gap-3 px-2 transition-all bg-white border-2 hover:border-black focus:border-black'>
                     <div>
                         <img src={Ping} alt="Location Icon" className='w-[20px]' />
@@ -393,13 +391,13 @@ const SearchBar = () => {
                             onFocus={toggleLocations}
                             className="min-w-[250px] outline-none text-lg placeholder:text-sm cursor-pointer"
                         />
-                        <div className='absolute mt-12 -left-[41px] max-h-[150px] overflow-y-auto' >
+                        <div className='absolute mt-12 -left-[41px] max-h-[150px] overflow-y-auto z-20 mobile:-left-[70px] mobile:max-h-[250px]' >
                             <ul className='locations hidden'>
                                 {predictedLocations.length ?
                                     predictedLocations.map((location) => {
                                         return (
                                             <li
-                                                className='p-1 border min-w-[400px] bg-white border-black cursor-pointer hover:text-black hover:primary-bg-color'
+                                                className='p-1 border min-w-[400px] mobile:min-w-[350px] bg-white border-black cursor-pointer hover:text-black hover:primary-bg-color'
                                                 key={location.essId.sourceId}
                                                 onClick={(e) => setLocation({ name: location.regionNames.primaryDisplayName, index: location.index, coordinates: { lat: location.coordinates.lat, long: location.coordinates.long } })}
                                             >
@@ -407,7 +405,7 @@ const SearchBar = () => {
                                             </li>
                                         )
                                     })
-                                    : null}
+                                    : <div className="spinner"></div>}
                             </ul>
                         </div>
                     </div>
@@ -429,7 +427,7 @@ const SearchBar = () => {
                         </button>
 
                         <Calendar
-                            className={'hidden checkIn transition-all absolute -left-[45px]'}
+                            className={'hidden checkIn transition-all absolute -left-[45px] mobile:-left-[140px] z-20'}
                             onChange={(e) => setCheckInDate(e)}
                             minDate={new Date()}
                         />
@@ -452,7 +450,7 @@ const SearchBar = () => {
                         </button>
 
                         <Calendar
-                            className={'hidden checkOut transition-all absolute -left-[45px]'}
+                            className={'hidden checkOut transition-all absolute -left-[45px] mobile:-left-[140px] z-20'}
                             onChange={(e) => setCheckOutDate(e)}
                             minDate={setMinCheckOutDate()}
                         />
@@ -475,7 +473,7 @@ const SearchBar = () => {
                             {adultLength} Adults, {childrenLength} Children
                         </button>
 
-                        <div id='peopleList' className='hidden absolute mt-12 border border-black min-w-[300px] -left-[85px] bg-white max-h-[250px] overflow-y-auto'>
+                        <div id='peopleList' className='hidden absolute mt-12 border border-black min-w-[300px] -left-[85px] bg-white max-h-[250px] overflow-y-auto z-20'>
                             <>
                                 <button
                                     className='text-sm absolute right-1 top-1 border border-black px-1 hover:bg-gray-400/50'
@@ -509,21 +507,25 @@ const SearchBar = () => {
 
             </div>
 
-            <div className='container flex justify-center items-center w-full my-2 px-[20%]'>
-                <div className='min-value numberVal'>
-                    <input className='w-[50px] h-[30px] bg-white border text-[15px] text-center' type="number" value={minPrice} min={0} max={600} disabled />
-                </div>
+            <div className='flex flex-col justify-center items-center w-full mt-5'>
+                {/* <h1 className='mt-4 text-md'>Price Range</h1> */}
+                <div className='range-container flex justify-center items-center w-[30%] border xl:w-[45%] mobile:w-3/4'>
+                    <div className='min-value numberVal'>
+                        <p className="bg-white flex justify-center items-center text-center w-[50px] h-[30px] text-[15px]">$ {minPrice}</p>
+                    </div>
 
-                <div className='range-slider relative w-full h-[5px] bg-white outline-none m-[10px] rounded-[50px]'>
-                    <div className='progress absolute left-[0%] right-[75%] h-full primary-bg-color rounded-[50px]'></div>
-                    <input className='range-min absolute -top-[7px] -left-[5px] w-[101%] outline-none cursor-pointer' type="range" min={0} max={600} value={minPrice} onInput={(e) => onMinRangeChange(e)} />
-                    <input className='range-max absolute -top-[7px] -left-[5px] w-[101%] outline-none cursor-pointer' type="range" min={0} max={600} value={maxPrice} onInput={(e) => onMaxRangeChange(e)} />
-                </div>
+                    <div className='range-slider relative w-full h-[5px] bg-gray-400 outline-none m-[10px] rounded-[50px]'>
+                        <div className='progress absolute left-[0%] right-[75%] h-full primary-bg-color rounded-[50px]'></div>
+                        <input className='range-min absolute -top-[7px] -left-[5px] w-[101%] transition-all outline-none cursor-pointer bg-black text-black' title={minPrice} type="range" min={0} max={600} value={minPrice} onInput={(e) => onMinRangeChange(e)} />
+                        <input className='range-max absolute -top-[7px] -left-[5px] w-[101%] outline-none cursor-pointer' type="range" min={0} max={600} value={maxPrice} onInput={(e) => onMaxRangeChange(e)} />
+                    </div>
 
-                <div className='max-value numberVal'>
-                    <input className='w-[50px] h-[30px] bg-white border text-[15px] text-center' type="number" value={maxPrice} min={0} max={600} disabled />
+                    <div className='max-value numberVal'>
+                        <p className='w-[50px] h-[30px] bg-white flex justify-center items-center text-[15px] text-center'>$ {maxPrice}</p>
+                    </div>
                 </div>
             </div>
+
 
 
             <div className='w-full flex justify-center items-center pt-3'>

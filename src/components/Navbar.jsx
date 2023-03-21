@@ -7,8 +7,11 @@ const Navbar = (props) => {
     const location = useLocation();
     const navigate = useNavigate()
     const [scrolled, setScrolled] = useState(false);
+    const [headerClicked, setHeaderClicked] = useState(false);
 
     useEffect(() => {
+        tabSelecting();
+
         if (location.pathname === '/') {
             const moveNavbar = () => {
                 const scrollY = window.pageYOffset;
@@ -29,6 +32,28 @@ const Navbar = (props) => {
         }
 
     }, [scrolled]);
+
+    const tabSelecting = () => {
+        const tabs = document.getElementsByClassName('nav-link');
+        if (window.innerWidth < 768) {
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].addEventListener('click', () => {
+                    closeSideNav();
+                })
+            };
+        }
+    }
+
+    const closeSideNav = () => {
+        document.querySelector('.main-nav').classList.remove('mobile', 'appear');
+        setHeaderClicked(false)
+    }
+
+    const hamburgerClicked = () => {
+        setHeaderClicked(!headerClicked)
+        document.querySelector('.main-nav').classList.toggle('appear');
+        document.querySelector('.main-nav').classList.toggle('mobile');
+    }
 
     function waitForElm(selector) {
         return new Promise(resolve => {
@@ -68,10 +93,10 @@ const Navbar = (props) => {
                 </h1>
             </div>
 
-            <div className='w-1/2'>
-                <ul className='text-base flex flex-row justify-around items-center'>
+            <div className='main-nav w-1/2 transition-all mobile:h-4/5 mobile:primary-bg-color mobile:top-[75px] mobile:justify-center mobile:fixed mobile:-left-full mobile:flex mobile:flex-col mobile:w-full mobile:z-20'>
+                <ul className='text-base flex flex-row justify-around items-center mobile:flex-col mobile:justify-around mobile:h-full'>
                     <li
-                        className='hover:text-slate-500 cursor-pointer'
+                        className='nav-link hover:text-slate-700 cursor-pointer mobile:text-[#FEFEDF]'
                         onClick={() => {
                             navigateToNewsletter();
                         }}
@@ -80,7 +105,7 @@ const Navbar = (props) => {
                     </li>
 
                     <li
-                        className='hover:text-slate-500 cursor-pointer'
+                        className='nav-link hover:text-slate-700 cursor-pointer mobile:text-[#FEFEDF]'
                         onClick={() => {
                             navigateToNewsletter();
                         }}
@@ -89,20 +114,33 @@ const Navbar = (props) => {
                     </li>
 
                     <li
-                        className='hover:text-slate-500 cursor-pointer'
+                        className='nav-link hover:text-slate-700 cursor-pointer mobile:text-[#FEFEDF]'
                     >
                         My Noumes
                     </li>
 
-                    <li>
+                    <li className='nav-link'>
                         <Link to={'/find-hotels'}>
-                            <button className='primary-btn'>
+                            <button className='primary-btn mobile:bg-black mobile:primary-txt-color'>
                                 Find Hotels
                             </button>
                         </Link>
                     </li>
                 </ul>
             </div>
+
+            <div className='hamburger hidden mobile:block' onClick={hamburgerClicked}>
+                <button className="relative group">
+                    <div className={`relative flex overflow-hidden items-center justify-center rounded-full w-[50px] h-[50px] transform transition-all primary-bg-color ring-0 ring-gray-300 hover:ring-8 ring-opacity-30 duration-200 shadow-md ${headerClicked ? 'ring-4' : ''}`}>
+                        <div className={`flex flex-col justify-between w-[20px] h-[20px] transform transition-all duration-500 origin-center overflow-hidden ${headerClicked ? 'rotate-180' : ''}`}>
+                            <div className={`bg-[#FEFEDF] h-[2px] w-7 transform transition-all duration-500 -translate-x-1 ${headerClicked ? '-rotate-45' : ''}`}></div>
+                            <div className="bg-[#FEFEDF] h-[2px] w-7 rounded transform transition-all duration-500 "></div>
+                            <div className={`bg-[#FEFEDF] h-[2px] w-7 transform transition-all duration-500 -translate-x-1 ${headerClicked ? 'rotate-45' : ''}`}></div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+
         </nav>
     )
 }
