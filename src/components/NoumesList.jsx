@@ -30,7 +30,7 @@ const NoumesList = ({ noumes }) => {
                     null
                     :
                     <div className='flex flex-col px-8'>
-                        {location === '/find-hotels' ? <p className='pl-2 py-4'>{`Search Results For '${selectedLocation.name}'`}</p> : null}
+                        {location === '/find-noumes' ? <p className='pl-2 py-4'>{`Search Results For '${selectedLocation.name}'`}</p> : null}
                         {mapNoumes()}
                     </div>
         )

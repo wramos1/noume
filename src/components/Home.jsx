@@ -37,7 +37,7 @@ const Home = () => {
     const searchPopularStay = (location) => {
         setTerm(location.imgAlt);
         setSelectedLocation({ name: location.imgAlt, index: 1, coordinates: { lat: location.coordinates.latitude, long: location.coordinates.longitude } })
-        navigate('/find-hotels');
+        navigate('/find-noumes');
     }
 
     return (

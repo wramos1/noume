@@ -122,9 +122,9 @@ const Navbar = (props) => {
                     </li>
 
                     <li className='nav-link'>
-                        <Link to={'/find-hotels'}>
+                        <Link to={'/find-noumes'}>
                             <button className='primary-btn mobile:bg-black mobile:primary-txt-color'>
-                                Find Hotels
+                                Find Noumes
                             </button>
                         </Link>
                     </li>

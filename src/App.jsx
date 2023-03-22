@@ -14,7 +14,7 @@ export function App() {
       <Route path='/' element={<Home />} />
       <Route path='*' element={<NotFound />} />
       <Route path='/my-noumes' element={<MyNoumes />} />
-      <Route path='/find-hotels' element={<FindNoumes />} />
+      <Route path='/find-noumes' element={<FindNoumes />} />
       <Route path='/noumes/:id' element={<Noume />} />
     </Routes>
   )

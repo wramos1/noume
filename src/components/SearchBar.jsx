@@ -354,8 +354,8 @@ const SearchBar = () => {
             }
         };
 
-        if (location.pathname !== '/find-hotels') {
-            navigate('/find-hotels');
+        if (location.pathname !== '/find-noumes') {
+            navigate('/find-noumes');
         }
 
         const results = await fetch('https://hotels4.p.rapidapi.com/properties/v2/list', {
