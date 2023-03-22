@@ -66,8 +66,32 @@ const SearchBar = () => {
     }
 
     useEffect(() => {
-        setCheckInDate(new Date());
-        setCheckOutDate(new Date(new Date().setDate(new Date().getDate() + 1)))
+        if (checkIn.day === null) {
+            let newDate = new Date();
+            let indexOfComma = newDate.toLocaleString().indexOf(',');
+            setCheckIn({
+                day: newDate.getDate(),
+                month: newDate.getMonth() + 1,
+                year: newDate.getFullYear(),
+                strDate: newDate.toLocaleString("en-US").slice(0, indexOfComma)
+            });
+
+            if (checkOut.strDate !== '') {
+                if (Date.parse(newDate.toLocaleString("en-US").slice(0, indexOfComma)) >= Date.parse(checkOut.strDate)) {
+                    let newCheckOutDate = new Date(newDate.setDate(newDate.getDate() + 1));
+                    setCheckOutDate(newCheckOutDate);
+                }
+            }
+
+            let newCheckOutDate = new Date(new Date(new Date().setDate(new Date().getDate() + 1)));
+            let indexOfCheckOutComma = newCheckOutDate.toLocaleString().indexOf(',');
+            setCheckOut({
+                day: newCheckOutDate.getDate(),
+                month: newCheckOutDate.getMonth() + 1,
+                year: newCheckOutDate.getFullYear(),
+                strDate: newCheckOutDate.toLocaleString("en-US").slice(0, indexOfCheckOutComma)
+            })
+        }
     }, [])
 
     useEffect(() => {
