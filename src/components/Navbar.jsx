@@ -1,17 +1,34 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
+import { QueriesContext } from '../data/QueriesContext';
 const Navbar = (props) => {
+    const { setSavedNoumes } = useContext(QueriesContext);
     const location = useLocation();
     const navigate = useNavigate()
     const [scrolled, setScrolled] = useState(false);
     const [headerClicked, setHeaderClicked] = useState(false);
 
+    const getSavedNoumes = () => {
+        let localNoumeData = JSON.parse(window.localStorage.getItem('myNoumes'));
+        if (localNoumeData) {
+            setSavedNoumes(localNoumeData);
+            return;
+        }
+        else {
+            window.localStorage.setItem('myNoumes', JSON.stringify([]));
+        }
+
+    }
+
+    useEffect(() => {
+        getSavedNoumes();
+    }, [])
+
     useEffect(() => {
         tabSelecting();
-
         if (location.pathname === '/') {
             const moveNavbar = () => {
                 const scrollY = window.pageYOffset;

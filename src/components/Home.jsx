@@ -9,7 +9,7 @@ import { QueriesContext } from '../data/QueriesContext';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-    const { setSelectedLocation, setTerm, setSavedNoumes } = useContext(QueriesContext);
+    const { setSelectedLocation, setTerm } = useContext(QueriesContext);
     const navigate = useNavigate();
 
     const simulateNewsletterSubscription = (e) => {
@@ -18,26 +18,33 @@ const Home = () => {
         document.querySelector('#newsletterInput').value = '';
     };
 
-    const getSavedNoumes = () => {
-        let localNoumeData = JSON.parse(window.localStorage.getItem('myNoumes'));
-        if (localNoumeData) {
-            setSavedNoumes(localNoumeData);
-            return;
-        }
-        else {
-            window.localStorage.setItem('myNoumes', 'empty');
-        }
+    function waitForElm(selector) {
+        return new Promise(resolve => {
+            if (document.querySelector(selector)) {
+                return resolve(document.querySelector(selector));
+            }
 
+            const observer = new MutationObserver(mutations => {
+                if (document.querySelector(selector)) {
+                    resolve(document.querySelector(selector));
+                    observer.disconnect();
+                }
+            });
+
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        });
     }
 
-    useEffect(() => {
-        getSavedNoumes();
-    }, [])
 
-    const searchPopularStay = (location) => {
+    const searchPopularStay = async (location) => {
         setTerm(location.imgAlt);
         setSelectedLocation({ name: location.imgAlt, index: 1, coordinates: { lat: location.coordinates.latitude, long: location.coordinates.longitude } })
         navigate('/find-noumes');
+        const elm = await waitForElm('.nav');
+        document.querySelector('.nav').scrollIntoView({ behavior: 'smooth' });
     }
 
     return (

@@ -75,13 +75,13 @@ const SearchBar = () => {
             fetchLocations();
         } else {
             const timeoutId = setTimeout(() => {
-                if (term === '') {
+                if (term.trim() === '') {
                     document.querySelector('.locations').classList.add('hidden');
                 }
                 if (term) {
                     fetchLocations();
                 }
-            }, 500)
+            }, 900)
 
             return () => {
                 clearTimeout(timeoutId);
@@ -318,6 +318,26 @@ const SearchBar = () => {
         }
     }
 
+    function waitForElm(selector) {
+        return new Promise(resolve => {
+            if (document.querySelector(selector)) {
+                return resolve(document.querySelector(selector));
+            }
+
+            const observer = new MutationObserver(mutations => {
+                if (document.querySelector(selector)) {
+                    resolve(document.querySelector(selector));
+                    observer.disconnect();
+                }
+            });
+
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        });
+    }
+
     const searchProperties = async () => {
         if (term.trim() === '') {
             alert('Location is needed to find Noumes');
@@ -356,6 +376,8 @@ const SearchBar = () => {
 
         if (location.pathname !== '/find-noumes') {
             navigate('/find-noumes');
+            const elm = await waitForElm('.nav');
+            document.querySelector('.nav').scrollIntoView({ behavior: 'smooth' });
         }
 
         const results = await fetch('https://hotels4.p.rapidapi.com/properties/v2/list', {
@@ -411,7 +433,9 @@ const SearchBar = () => {
                                             </li>
                                         )
                                     })
-                                    : <div className="spinner"></div>}
+                                    : <div className="p-1 text-md border min-w-[400px] mobile:min-w-[350px] mobile:max-w-[350px] bg-white border-black cursor-pointer hover:text-black hover:primary-bg-color">
+                                        <p>Searching for... '{term}'</p>
+                                    </div>}
                             </ul>
                         </div>
                     </div>

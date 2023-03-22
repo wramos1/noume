@@ -49,7 +49,7 @@ const PhotosModal = ({ show, photos, togglePhotos }) => {
                                 return (
                                     <div key={i} className="group cursor-pointer transition-all relative w-[250px] border-4 border-[#AA9BE6] rounded-md object-contain" onClick={() => choosePhotoToView(photo, i)}>
                                         <img className='rounded-sm h-full' src={photo.image.url} alt={photo.image.description} />
-                                        <p className='hidden group-hover:block transition-all h-5 group-hover:h-10 text-center absolute top-0 bg-black/50 text-sm z-50 w-full text-white'>{photo.accessibilityText}</p>
+                                        <p className='hidden group-hover:block transition-all text-center absolute top-0 bg-black/50 text-sm z-50 w-full text-white'>{photo.accessibilityText}</p>
                                     </div>
                                 )
                             })

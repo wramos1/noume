@@ -25,13 +25,15 @@ const NoumePreview = ({ noume }) => {
         else {
             if (saved) {
                 setSaved(false);
-                setSavedNoumes(savedNoumes.filter((savedNoume) => savedNoume.id !== noume.id));
-                window.localStorage.setItem('myNoumes', JSON.stringify(savedNoumes));
+                let newSavedNoumes = savedNoumes.filter((savedNoume) => savedNoume.id !== noume.id);
+                setSavedNoumes(newSavedNoumes);
+                window.localStorage.setItem('myNoumes', JSON.stringify(newSavedNoumes));
             }
             else {
                 setSaved(true)
+                let newSavedNoumes = [...savedNoumes, noume];
                 setSavedNoumes([...savedNoumes, noume]);
-                window.localStorage.setItem('myNoumes', JSON.stringify(savedNoumes));
+                window.localStorage.setItem('myNoumes', JSON.stringify(newSavedNoumes));
             }
         }
     }

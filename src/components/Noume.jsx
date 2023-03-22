@@ -162,7 +162,7 @@ const Noume = () => {
                         <div className='flex relative px-4 mobile:flex-col mobile:px-0'>
                             <div className='w-full flex flex-col relative'>
                                 <div
-                                    className='absolute right-6 top-5 text-4xl z-50 cursor-pointer'
+                                    className='absolute right-6 top-5 text-4xl cursor-pointer'
                                     onClick={() => save()}
                                 >
                                     {saved ? <FontAwesomeIcon icon={SolidHeart} style={{ color: 'red' }} /> : <FontAwesomeIcon icon={BasicHeart} style={{ color: 'red' }} />}
