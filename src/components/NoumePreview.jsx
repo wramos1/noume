@@ -7,7 +7,7 @@ import { QueriesContext } from '../data/QueriesContext';
 
 const NoumePreview = ({ noume }) => {
     const [saved, setSaved] = useState(false);
-    const { selectedLocation, setNoumePrice, savedNoumes, setSavedNoumes } = useContext(QueriesContext);
+    const { selectedLocation, setSelectedNoume, savedNoumes, setSavedNoumes } = useContext(QueriesContext);
 
     const checkIfSaved = () => {
         if (savedNoumes) {
@@ -18,15 +18,21 @@ const NoumePreview = ({ noume }) => {
     };
 
     const save = () => {
-        if (saved) {
-            setSaved(false);
-            setSavedNoumes(savedNoumes.filter((savedNoume) => savedNoume.id !== noume.id));
-            window.localStorage.setItem('myNoumes', JSON.stringify(savedNoumes));
+        if (savedNoumes.length === 10) {
+            alert('Cannot save more than 10 Noumes');
+            return;
         }
         else {
-            setSaved(true)
-            setSavedNoumes([...savedNoumes, noume]);
-            window.localStorage.setItem('myNoumes', JSON.stringify(savedNoumes));
+            if (saved) {
+                setSaved(false);
+                setSavedNoumes(savedNoumes.filter((savedNoume) => savedNoume.id !== noume.id));
+                window.localStorage.setItem('myNoumes', JSON.stringify(savedNoumes));
+            }
+            else {
+                setSaved(true)
+                setSavedNoumes([...savedNoumes, noume]);
+                window.localStorage.setItem('myNoumes', JSON.stringify(savedNoumes));
+            }
         }
     }
 
@@ -73,7 +79,7 @@ const NoumePreview = ({ noume }) => {
                         </p>
                     </div>
                     <Link to={`/noumes/${noume.id}`}
-                        onClick={() => setNoumePrice(noume.price.lead.formatted)} className='primary-btn w-[120px] rounded-none'>View Property</Link>
+                        onClick={() => setSelectedNoume(noume)} className='primary-btn w-[120px] rounded-none'>View Property</Link>
                 </div>
 
                 <div className='flex flex-col justify-between h-full p-2 mobile:flex-row'>

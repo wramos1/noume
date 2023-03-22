@@ -1,6 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom';
 import { QueriesContext } from '../data/QueriesContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart as BasicHeart } from '@fortawesome/free-regular-svg-icons';
+import { faHeart as SolidHeart } from '@fortawesome/free-solid-svg-icons';
 import Navbar from './Navbar';
 import PhotosModal from './PhotosModal';
 import ReviewModal from './ReviewModal';
@@ -8,15 +11,42 @@ import ReviewModal from './ReviewModal';
 const Noume = () => {
     const { id } = useParams();
     const [noume, setNoume] = useState(null);
-    const { noumePrice } = useContext(QueriesContext);
+    const { selectedNoume, savedNoumes, setSavedNoumes } = useContext(QueriesContext);
     const [loading, setLoading] = useState(false);
     const [showReviews, setShowReviews] = useState(false);
     const [showPhotos, setShowPhotos] = useState(false);
     const [reviews, setReviews] = useState([]);
     const [photos, setPhotos] = useState([]);
+    const [saved, setSaved] = useState(false);
+
+    const checkIfSaved = () => {
+        if (savedNoumes) {
+            if (savedNoumes.some((savedNoume) => savedNoume.id === id)) {
+                setSaved(true);
+            }
+        }
+    };
+
+    const save = () => {
+        if (savedNoumes.length === 10) {
+            alert('Cannot save more than 10 Noumes');
+            return;
+        }
+        else {
+            if (saved) {
+                setSaved(false);
+                setSavedNoumes(savedNoumes.filter((savedNoume) => savedNoume.id !== id));
+                window.localStorage.setItem('myNoumes', JSON.stringify(savedNoumes));
+            }
+            else {
+                setSaved(true)
+                setSavedNoumes([...savedNoumes, selectedNoume]);
+                window.localStorage.setItem('myNoumes', JSON.stringify(savedNoumes));
+            }
+        }
+    }
 
     const navigate = useNavigate();
-
 
     const params = JSON.stringify({ propertyId: id })
 
@@ -44,6 +74,7 @@ const Noume = () => {
     useEffect(() => {
         setLoading(true);
         findNoume();
+        checkIfSaved()
     }, [])
 
     const makeStars = () => {
@@ -128,8 +159,14 @@ const Noume = () => {
                 <>
                     <Navbar classProps={'bg-[#7468AD] text-white p-5'} />
                     <div className='pt-28 flex flex-col gap-12'>
-                        <div className='flex px-4 mobile:flex-col mobile:px-0'>
-                            <div className='w-full flex flex-col'>
+                        <div className='flex relative px-4 mobile:flex-col mobile:px-0'>
+                            <div className='w-full flex flex-col relative'>
+                                <div
+                                    className='absolute right-6 top-5 text-4xl z-50 cursor-pointer'
+                                    onClick={() => save()}
+                                >
+                                    {saved ? <FontAwesomeIcon icon={SolidHeart} style={{ color: 'red' }} /> : <FontAwesomeIcon icon={BasicHeart} style={{ color: 'red' }} />}
+                                </div>
                                 <img
                                     className='w-full mobile:w-3/5 mobile:self-center h-full self-end border-4 border-[#AA9BE6]'
                                     src={noume.propertyGallery.images[0].image.url}
@@ -201,7 +238,7 @@ const Noume = () => {
                                 </div>
 
                                 <div className='flex w-full justify-center items-center flex-col gap-2 pb-5 xl:text-xl 2xl:text-2xl '>
-                                    <h1> <span className='text-black/50'> <span className='text-green-600'>{noumePrice}</span> per night.</span></h1>
+                                    <h1> <span className='text-black/50'> <span className='text-green-600'>{selectedNoume.price.lead.formatted}</span> per night.</span></h1>
                                     <button className="primary-btn rounded-none text-2xl py-3 px-20" onClick={() => navigate(-1)}>Find Other Noumes</button>
                                 </div>
 
