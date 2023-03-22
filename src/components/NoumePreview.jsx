@@ -18,23 +18,21 @@ const NoumePreview = ({ noume }) => {
     };
 
     const save = () => {
-        if (savedNoumes.length === 10) {
-            alert('Cannot save more than 10 Noumes');
-            return;
+        if (saved) {
+            setSaved(false);
+            let newSavedNoumes = savedNoumes.filter((savedNoume) => savedNoume.id !== noume.id);
+            setSavedNoumes(newSavedNoumes);
+            window.localStorage.setItem('myNoumes', JSON.stringify(newSavedNoumes));
         }
         else {
-            if (saved) {
-                setSaved(false);
-                let newSavedNoumes = savedNoumes.filter((savedNoume) => savedNoume.id !== noume.id);
-                setSavedNoumes(newSavedNoumes);
-                window.localStorage.setItem('myNoumes', JSON.stringify(newSavedNoumes));
+            if (savedNoumes.length === 5) {
+                alert('Cannot save more than 5 Noumes');
+                return;
             }
-            else {
-                setSaved(true)
-                let newSavedNoumes = [...savedNoumes, noume];
-                setSavedNoumes([...savedNoumes, noume]);
-                window.localStorage.setItem('myNoumes', JSON.stringify(newSavedNoumes));
-            }
+            setSaved(true)
+            let newSavedNoumes = [...savedNoumes, noume];
+            setSavedNoumes([...savedNoumes, noume]);
+            window.localStorage.setItem('myNoumes', JSON.stringify(newSavedNoumes));
         }
     }
 
