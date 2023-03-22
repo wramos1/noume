@@ -96,7 +96,7 @@ const Navbar = (props) => {
             <div className='main-nav w-1/2 transition-all mobile:h-4/5 mobile:primary-bg-color mobile:top-[75px] mobile:justify-center mobile:fixed mobile:-left-full mobile:flex mobile:flex-col mobile:w-full mobile:z-20'>
                 <ul className='text-base flex flex-row justify-around items-center mobile:flex-col mobile:justify-around mobile:h-full'>
                     <li
-                        className='nav-link hover:text-slate-700 cursor-pointer mobile:text-[#FEFEDF]'
+                        className='nav-link hover:text-black cursor-pointer mobile:text-[#FEFEDF]'
                         onClick={() => {
                             navigateToNewsletter();
                         }}
@@ -105,7 +105,7 @@ const Navbar = (props) => {
                     </li>
 
                     <li
-                        className='nav-link hover:text-slate-700 cursor-pointer mobile:text-[#FEFEDF]'
+                        className='nav-link hover:text-black cursor-pointer mobile:text-[#FEFEDF]'
                         onClick={() => {
                             navigateToNewsletter();
                         }}
@@ -114,9 +114,11 @@ const Navbar = (props) => {
                     </li>
 
                     <li
-                        className='nav-link hover:text-slate-700 cursor-pointer mobile:text-[#FEFEDF]'
+                        className='nav-link hover:text-black cursor-pointer mobile:text-[#FEFEDF]'
                     >
-                        My Noumes
+                        <Link to={'/my-noumes'}>
+                            My Noumes
+                        </Link>
                     </li>
 
                     <li className='nav-link'>

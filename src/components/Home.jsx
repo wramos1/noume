@@ -1,17 +1,44 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { popularStays } from '../data/popularStays';
 import Yoga from '../images/yoga.png';
 import House from '../images/home.png';
 import CheckList from '../images/checks.png';
 import SearchBar from './SearchBar';
 import Navbar from './Navbar';
+import { QueriesContext } from '../data/QueriesContext';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+    const { setSelectedLocation, setTerm, setSavedNoumes } = useContext(QueriesContext);
+    const navigate = useNavigate();
+
     const simulateNewsletterSubscription = (e) => {
         e.preventDefault();
         alert('You have subscribed!');
         document.querySelector('#newsletterInput').value = '';
     };
+
+    const getSavedNoumes = () => {
+        let localNoumeData = JSON.parse(window.localStorage.getItem('myNoumes'));
+        if (localNoumeData) {
+            setSavedNoumes(localNoumeData);
+            return;
+        }
+        else {
+            window.localStorage.setItem('myNoumes', 'empty');
+        }
+
+    }
+
+    useEffect(() => {
+        getSavedNoumes();
+    }, [])
+
+    const searchPopularStay = (location) => {
+        setTerm(location.imgAlt);
+        setSelectedLocation({ name: location.imgAlt, index: 1, coordinates: { lat: location.coordinates.latitude, long: location.coordinates.longitude } })
+        navigate('/find-hotels');
+    }
 
     return (
         <div className='relative'>
@@ -53,7 +80,7 @@ const Home = () => {
                         popularStays.map((stay, i) => {
                             const { imgSrc, imgAlt, title } = stay;
                             return (
-                                <div key={i} className='flex flex-col justify-around items-center max-w-[200px] mobile:max-w-[250px] h-[250px] basis-1/4 mobile:basis-3/4 hover:primary-txt-color group cursor-pointer'>
+                                <div onClick={() => searchPopularStay(stay)} key={i} className='flex flex-col justify-around items-center max-w-[200px] mobile:max-w-[250px] h-[250px] basis-1/4 mobile:basis-3/4 hover:primary-txt-color group cursor-pointer'>
                                     <img src={imgSrc} alt={imgAlt} className='rounded-[50%] w-[200px] h-[200px] group-hover:primary-border group-hover:scale-105 transition-all' />
                                     <p>{title}</p>
                                 </div>

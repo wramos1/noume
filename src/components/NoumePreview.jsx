@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as BasicHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as SolidHeart } from '@fortawesome/free-solid-svg-icons';
@@ -6,25 +6,49 @@ import { Link } from 'react-router-dom';
 import { QueriesContext } from '../data/QueriesContext';
 
 const NoumePreview = ({ noume }) => {
+    const [saved, setSaved] = useState(false);
+    const { selectedLocation, setNoumePrice, savedNoumes, setSavedNoumes } = useContext(QueriesContext);
 
-    const [clicked, setClicked] = useState(false);
-    const { selectedLocation } = useContext(QueriesContext);
-    const { setNoumePrice } = useContext(QueriesContext);
+    const checkIfSaved = () => {
+        if (savedNoumes) {
+            if (savedNoumes.some((savedNoume) => savedNoume.id === noume.id)) {
+                setSaved(true);
+            }
+        }
+    };
+
+    const save = () => {
+        if (saved) {
+            setSaved(false);
+            setSavedNoumes(savedNoumes.filter((savedNoume) => savedNoume.id !== noume.id));
+            window.localStorage.setItem('myNoumes', JSON.stringify(savedNoumes));
+        }
+        else {
+            setSaved(true)
+            setSavedNoumes([...savedNoumes, noume]);
+            window.localStorage.setItem('myNoumes', JSON.stringify(savedNoumes));
+        }
+    }
+
+
+
+    useEffect(() => {
+        checkIfSaved();
+    }, [])
 
     return (
-        <Link
-            to={`/noumes/${noume.id}`}
-            onClick={() => setNoumePrice(noume.price.lead.formatted)}
+        <div
+
             className='w-full flex h-[220px] border-2 my-5 z-10 border-[#0000007b] transition-all mobile:flex-col mobile:h-[revert] mobile:items-center'
         >
             <div
                 className='w-[20%] relative z-30 mobile:w-1/2'
             >
                 <div
-                    className='absolute right-6 top-5 text-2xl z-50'
-                    onClick={() => setClicked(!clicked)}
+                    className='absolute right-6 top-5 text-2xl z-50 cursor-pointer'
+                    onClick={() => save()}
                 >
-                    {clicked ? <FontAwesomeIcon icon={SolidHeart} style={{ color: 'red' }} /> : <FontAwesomeIcon icon={BasicHeart} style={{ color: 'red' }} />}
+                    {saved ? <FontAwesomeIcon icon={SolidHeart} style={{ color: 'red' }} /> : <FontAwesomeIcon icon={BasicHeart} style={{ color: 'red' }} />}
                 </div>
                 <div className='w-full p-3 h-full'>
                     <img
@@ -48,7 +72,8 @@ const NoumePreview = ({ noume }) => {
                             {noume.reviews.score}/10 ({noume.reviews.total} Reviews)
                         </p>
                     </div>
-                    <button className='primary-btn w-[120px] rounded-none'>View Property</button>
+                    <Link to={`/noumes/${noume.id}`}
+                        onClick={() => setNoumePrice(noume.price.lead.formatted)} className='primary-btn w-[120px] rounded-none'>View Property</Link>
                 </div>
 
                 <div className='flex flex-col justify-between h-full p-2 mobile:flex-row'>
@@ -66,7 +91,7 @@ const NoumePreview = ({ noume }) => {
                     </div>
                 </div>
             </div>
-        </Link>
+        </div>
     )
 }
 

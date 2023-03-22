@@ -81,7 +81,7 @@ const SearchBar = () => {
                 if (term) {
                     fetchLocations();
                 }
-            }, 800)
+            }, 500)
 
             return () => {
                 clearTimeout(timeoutId);
@@ -318,7 +318,7 @@ const SearchBar = () => {
         }
     }
 
-    const printParams = async () => {
+    const searchProperties = async () => {
         if (term.trim() === '') {
             alert('Location is needed to find Noumes');
             return;
@@ -369,8 +369,14 @@ const SearchBar = () => {
         })
 
         const data = await results.json();
-        setNoumes(data.data.propertySearch.properties);
-        setLoading(false);
+
+        if (data.data === null) {
+            setNoumes(null);
+            setLoading(false);
+        } else {
+            setNoumes(data.data.propertySearch.properties);
+            setLoading(false);
+        }
     }
 
     return (
@@ -531,7 +537,7 @@ const SearchBar = () => {
             <div className='w-full flex justify-center items-center pt-3'>
                 <button
                     className='primary-btn px-3'
-                    onClick={() => printParams()}
+                    onClick={() => searchProperties()}
                 >
                     Search
                 </button>

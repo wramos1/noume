@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { QueriesContext } from '../data/QueriesContext';
 import Navbar from './Navbar';
+import PhotosModal from './PhotosModal';
 import ReviewModal from './ReviewModal';
 
 const Noume = () => {
@@ -12,6 +13,9 @@ const Noume = () => {
     const [showReviews, setShowReviews] = useState(false);
     const [showPhotos, setShowPhotos] = useState(false);
     const [reviews, setReviews] = useState([]);
+    const [photos, setPhotos] = useState([]);
+
+    const navigate = useNavigate();
 
 
     const params = JSON.stringify({ propertyId: id })
@@ -29,7 +33,7 @@ const Noume = () => {
             });
 
             const data = await result.json();
-            setNoume(data.data.propertyInfo)
+            setNoume(data.data.propertyInfo);
 
         } catch (error) {
             console.error(error);
@@ -76,7 +80,16 @@ const Noume = () => {
             const data = await results.json();
 
             setReviews(data.data.propertyInfo.reviewInfo.reviews)
-            console.log(data.data.propertyInfo.reviewInfo.reviews)
+        }
+    };
+
+    const fetchPhotos = () => {
+        togglePhotos(false);
+        if (photos.length > 0) {
+            return;
+        }
+        else {
+            setPhotos(noume.propertyGallery.images);
         }
     }
 
@@ -87,6 +100,20 @@ const Noume = () => {
         else {
             setShowReviews(!showReviews);
             document.body.classList.toggle('overflow-hidden');
+            document.querySelector('.nav').classList.toggle('absolute');
+            document.querySelector('#modalRoot').classList.toggle('scale-0');
+            document.querySelector('#modalRoot').classList.toggle('scale-1');
+        }
+    };
+
+    const togglePhotos = (value) => {
+        if (value) {
+            return;
+        }
+        else {
+            setShowPhotos(!showPhotos);
+            document.body.classList.toggle('overflow-hidden');
+            document.querySelector('.nav').classList.toggle('absolute');
             document.querySelector('#modalRoot').classList.toggle('scale-0');
             document.querySelector('#modalRoot').classList.toggle('scale-1');
         }
@@ -107,7 +134,7 @@ const Noume = () => {
                                     className='w-full mobile:w-3/5 mobile:self-center h-full self-end border-4 border-[#AA9BE6]'
                                     src={noume.propertyGallery.images[0].image.url}
                                     alt="property" />
-                                <p className='pt-2 decoration-[#AA9BE6] mobile:text-center decoration-2 hover:cursor-pointer hover:underline'>View More Photos <span className='primary-bg-color p-1 rounded-[50%] text-white'>{noume.propertyGallery.thumbnailGalleryDialog.trigger.value}</span></p>
+                                <p className='pt-2 decoration-[#AA9BE6] underline mobile:text-center hover:decoration-[3px] hover:cursor-pointer' onClick={fetchPhotos}>View More Photos <span className='primary-bg-color p-1 rounded-[50%] text-white'>{noume.propertyGallery.thumbnailGalleryDialog.trigger.value}</span></p>
                             </div>
 
                             <div className='w-full flex flex-col justify-between mobile:py-5'>
@@ -175,7 +202,7 @@ const Noume = () => {
 
                                 <div className='flex w-full justify-center items-center flex-col gap-2 pb-5 xl:text-xl 2xl:text-2xl '>
                                     <h1> <span className='text-black/50'> <span className='text-green-600'>{noumePrice}</span> per night.</span></h1>
-                                    <button className="primary-btn rounded-none text-2xl py-3 px-20">Book Now</button>
+                                    <button className="primary-btn rounded-none text-2xl py-3 px-20" onClick={() => navigate(-1)}>Find Other Noumes</button>
                                 </div>
 
                             </div>
@@ -189,9 +216,12 @@ const Noume = () => {
                             <div className='flex items-center w-full flex-col gap-2'>
                                 <h2 className='text-2xl text-black/60 mobile:text-2xl'>Overall Rating: <span className='font-black text-black'>{noume.reviewInfo.summary.overallScoreWithDescriptionA11y.value}</span></h2>
 
-                                <p className='text-xl mobile:text-sm decoration-[#AA9BE6] decoration-2 hover:cursor-pointer hover:underline' onClick={fetchReviews}>
-                                    {noume.reviewInfo.summary.propertyReviewCountDetails.shortDescription} &gt;
-                                </p>
+                                {noume.reviewInfo.summary.propertyReviewCountDetails !== null ?
+                                    <p className='text-xl mobile:text-md decoration-[#AA9BE6] hover:cursor-pointer underline hover:decoration-[3px]' onClick={fetchReviews}>
+                                        {noume.reviewInfo.summary.propertyReviewCountDetails.shortDescription} &gt;
+                                    </p> :
+                                    <p className='text-xl mobile:text-md'>No reviews Available</p>
+                                }
                             </div>
 
                             <div className='flex flex-col items-center w-full gap-2'>
@@ -212,6 +242,12 @@ const Noume = () => {
                         show={showReviews}
                         reviews={reviews}
                         toggleReviews={(e) => toggleReviews(e)}
+                    />
+
+                    <PhotosModal
+                        show={showPhotos}
+                        photos={photos}
+                        togglePhotos={(e) => togglePhotos(e)}
                     />
 
                 </>
