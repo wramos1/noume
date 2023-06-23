@@ -584,7 +584,7 @@ const SearchBar = () => {
 
             <div className='w-full flex justify-center items-center pt-3'>
                 <button
-                    className='primary-btn px-3'
+                    className='searchBtn primary-btn px-3'
                     onClick={() => searchProperties()}
                 >
                     Search

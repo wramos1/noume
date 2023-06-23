@@ -45,6 +45,7 @@ const Home = () => {
         navigate('/find-noumes');
         const elm = await waitForElm('.nav');
         document.querySelector('.nav').scrollIntoView({ behavior: 'smooth' });
+        document.querySelector('.searchBtn').click();
     }
 
     return (
